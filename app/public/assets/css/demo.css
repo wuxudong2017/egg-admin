@@ -1,0 +1,35 @@
+/* All styles created for demo purposes only, you may not need this for your project */
+.demo-button button {
+  margin-bottom: 5px; }
+
+.demo-icons li {
+  margin-bottom: 50px;
+  text-align: center; }
+
+.demo-icons .lnr,
+.demo-icons .fa {
+  font-size: 28px; }
+
+.demo-icons .cssclass {
+  display: block;
+  margin-top: 5px;
+  margin-left: 5px; }
+
+  a{
+    color: inherit
+  }
+  .form .form-group{
+    position: relative;
+  } 
+  .form label.error{
+    /* position: absolute;
+    right: 0; */
+    text-align: left;
+    display: block;
+    font-size: 12px;
+    color: #F9354C;
+    font-weight:normal;
+  }
+
+
+/*# sourceMappingURL=demo.css.map */

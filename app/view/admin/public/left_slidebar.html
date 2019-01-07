@@ -1,0 +1,73 @@
+<div id="sidebar-nav" class="sidebar">
+
+    {% set list = [
+        {
+            "id": 1,
+            "name": "首页",
+            "url": "/admin",
+            "icon": "lnr-home"
+        },
+        {
+            "id": 2,
+            "name": "用户管理",
+            "icon": "lnr-user",
+            "children": [
+                {
+                    "name": "用户列表",
+                    "url": "/admin/manage"
+                },  {
+                    "name": "新增用户",
+                    "url": "/admin/manage/add"
+                }
+            ]
+        },
+         {
+            "id": 3,
+            "name": "角色管理",
+            "icon": "lnr-select",
+            "children": [
+                {
+                    "name": "角色列表",
+                    "url": "/admin/role"
+                },
+                {
+                    "name": "新增角色",
+                    "url": "/admin/role/add"
+                }
+            ]
+        }
+    ]%}
+
+    <div class="sidebar-scroll">
+        <nav>
+            <ul class="nav">
+                {% for item in list%}
+                {% if item.children==null %}
+                    {% if item.url===pathName%}
+                    <li><a href="{{item.url}}" class="active"><i class="lnr {{item.icon}} "></i> <span>{{item.name}}</span></a></li>
+                    {% else%}
+                    <li><a href="{{item.url}}" class=""><i class="lnr {{item.icon}} "></i> <span>{{item.name}}</span></a></li>
+                    {%endif%}
+                {% else %}
+                <li>
+                    <a href="#subPages{{item.id}}" data-toggle="collapse" class=""><i class="lnr {{item.icon}}"></i>
+                        <span>{{item.name}}</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                    <div id="subPages{{item.id}}" class="collapse in">
+                        <ul class="nav">
+                            {% for b in item.children %}
+                                {% if b.url==pathName%}
+                                <li><a href="{{b.url}}" class="active">{{b.name}}</a></li>
+                                {% else%}
+                                <li><a href="{{b.url}}" class="">{{b.name}}</a></li>
+                                {%endif%}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </li>
+                {% endif%}
+
+                {% endfor%}
+            </ul>
+        </nav>
+    </div>
+</div>
