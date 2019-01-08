@@ -1,7 +1,7 @@
 'use strict';
 
 const Service = require('egg').Service;
-
+const Sequelize = require('sequelize');
 class AuthService extends Service {
   async doLogin(username,password) {
     let result = await this.app.model.User.findOne({
@@ -20,11 +20,14 @@ class AuthService extends Service {
       let model = this.app.model;
      
    let result = await this.app.model.User.findAll({
-
-       include:[{
-           model:model.Role,
-           attributes: ['id', 'title'],
-       }],
+    attributes:{include:[
+        [Sequelize.col('userRole.role_id'),'roleId'],
+    ]},
+        include:[{
+            model:model.UserRole,
+            attributes:[]
+        }],
+        raw:true,
        order: [['addTime', 'DESC']]
    })
     return result;
@@ -58,6 +61,16 @@ class AuthService extends Service {
       })
       return result
   }
+  // 删除一个用户
+  async deleteUser(id){
+      let result = await this.app.model.User.destroy({
+          where:{
+              id
+          }
+      })
+      return result;
+  }
+
 
   /**
    * 角色管理

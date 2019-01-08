@@ -36,16 +36,6 @@ module.exports = app => {
       allowNull: true,
       field: 'status'
     },
-    roleId: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
-      primaryKey: true,
-      references: {
-        model: 'role',
-        key: 'id'
-      },
-      field: 'role_id'
-    },
     addTime: {
       type: DataTypes.BIGINT,
       allowNull: true,
@@ -61,7 +51,9 @@ module.exports = app => {
   });
 
   Model.associate = function() {
-    app.model.User.belongsTo(app.model.Role,{foreignKey:'role_id',targetKey:'id'})
+   
+    console.log(app.model.User)
+     app.model.User.belongsTo(app.model.UserRole,{foreignKey:"id",targetKey:"userId"})
   }
 
   return Model;

@@ -25,7 +25,6 @@ class ManageController extends BaseController {
       email = decodeURIComponent(formData.email),
       roleId = formData.roleId;
       let result = await this.ctx.service.admin.auth.addOneUser(username,password,mobile,email,roleId);
-      console.log(result)
       if(result){
         this.ctx.body = {
           code:1,
@@ -51,6 +50,22 @@ class ManageController extends BaseController {
     })
   }
   async doEdit(){
+
+  }
+
+  // 删除用户
+  async delete(){
+    let query = this.ctx.request.query;
+    let id = '';
+    console.log(query)
+    if(query.id !='undefined'){
+      id = query.id
+    }else{
+      id = ''
+    }
+    let result = await this.ctx.service.admin.auth.deleteUser(id)
+    console.log(result)
+
 
   }
 }

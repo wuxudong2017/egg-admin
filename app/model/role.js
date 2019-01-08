@@ -8,10 +8,7 @@ module.exports = app => {
       type: DataTypes.STRING(255),
       allowNull: false,
       primaryKey: true,
-      references: {
-        model: 'user',
-        key: 'role_id'
-      },
+      autoIncrement: true,
       field: 'id'
     },
     title: {
@@ -39,7 +36,8 @@ module.exports = app => {
   });
 
   Model.associate = function() {
-    app.model.Role.hasOne(app.model.User,{})
+
+    app.model.Role.belongsToMany(app.model.UserRole,{foreignKey:"id",targetKey:"roleId",through:'role'})
   }
 
   return Model;
