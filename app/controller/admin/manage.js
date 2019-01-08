@@ -45,7 +45,6 @@ class ManageController extends BaseController {
     let id = this.ctx.request.query._id;
     let result = await this.ctx.service.admin.authService.findUser(id);
     let roleList = await this.ctx.service.admin.roleService.usedRole();
-    console.log(roleList)
     await this.ctx.render('/admin/manage/edit',{
       result,
       roleList

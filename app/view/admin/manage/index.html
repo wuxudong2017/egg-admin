@@ -8,6 +8,9 @@
     </div>
     <div class="panel-body">
         <div class="row">
+            <p style="width:90%;word-wrap:break-word">
+                {{result|dump}}
+            </p>
             <div class="col-sm-12 col-md-12">
                 <table class="table  table-striped text-center">
                     <thead>
@@ -21,12 +24,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for item in result %}
+                        {% set data = result.rows%}
+                        {% for item in data %}
                         <tr>
                             <td>{{item.username}}</td>
                             <td>{{item.mobile}}</td>
                             <td>{{item.email}}</td>
-                            <td>{{item.roleId}}</td>
+                            <td>{{item.roleName}}</td>
                             <td>{{item.addTime}}</td>
                             <td><a href="/admin/manage/edit?_id={{item.id}}" class="btn btn-xs btn-primary">编辑</a>
                                 <button data-id="{{item.id}}" class="btn btn-xs btn-danger delete">删除</button>
