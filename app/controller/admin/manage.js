@@ -24,7 +24,6 @@ class ManageController extends BaseController {
       mobile = formData.mobile,
       email = decodeURIComponent(formData.email),
       roleId = formData.roleId;
-      console.log(formData)
       let result = await this.ctx.service.admin.authService.addOneUser(username,password,mobile,email,roleId);
       if(result){
         this.ctx.body = {
@@ -42,7 +41,7 @@ class ManageController extends BaseController {
   }
   // 编辑用户
   async edit(){
-    let id = this.ctx.request.query._id;
+    let id = this.ctx.request.query.id;
     let result = await this.ctx.service.admin.authService.findUser(id);
     let roleList = await this.ctx.service.admin.roleService.usedRole();
     await this.ctx.render('/admin/manage/edit',{
@@ -51,7 +50,27 @@ class ManageController extends BaseController {
     })
   }
   async doEdit(){
-
+    let formData = this.ctx.request.body;
+    let username = formData.username,
+    id = formData.id,
+    password = await this.ctx.service.tools.md5(formData.password),
+    mobile = formData.mobile,
+    email = decodeURIComponent(formData.email),
+    roleId = formData.roleId;
+    let result = await this.ctx.service.admin.authService.updateOneUser(id,username,password,mobile,email,roleId);
+    if(result){
+      this.ctx.body = {
+        code:1,
+        message:'编辑用户成功',
+        data:null
+      }
+    }else{
+      this.ctx.body = {
+        code:0,
+        message:'编辑名已存在',
+        data:null
+      }
+    }
   }
 
   // 删除用户

@@ -25,12 +25,10 @@ class AuthService extends Service {
             include:[{
                 model:model.Role,
                 attributes:[],
-                raw:true,
-                nested: false 
+                raw:true, 
             }],
             attributes:[],
             raw:true,
-             all: true, nested: true 
         }],
         attributes:{include:[
             [Sequelize.col('userRole.role_id'),'roleId'],
@@ -48,52 +46,57 @@ class AuthService extends Service {
             username
         }
     });
-   if(!result) throw new Error('用户名不存在')
+   return result
   }
   
 
   // 新加用户
   async addOneUser(username,password,mobile,email,roleId){
     let addTime = await this.ctx.service.tools.getTime();
-    this.app.model.transaction((t) =>{
-         this.getUserByUserName(username,{transaction:t});
-        this.app.model.User.create({
+    let result = await this.app.model.User.findOne({
+        where:{
+            username
+        }
+    });
+    if(result === null){
+        await this.app.model.User.create({
             username,password,mobile,email,roleId,addTime
-        },{transaction:t})
-    })
+        })
+        
+       await this.app.model.UserRole.create({
+           userId:await this.app.model.User.max('id'),
+           roleId,
+       })
 
-    // let result = await this.app.model.User.findOne({
-    //     where:{
-    //         username
-    //     }
-    // });/';
-    // let addTime = await this.ctx.service.tools.getTime();
-    // if(result === null){
-    //     await this.app.model.User.create({
-    //         username,password,mobile,email,roleId,addTime
-    //     })
-    //     return true
-    // }else{
-    //     return false
-    // }
+       return true;
+    }else{
+        return false
+    }
   }
   // 查询一个用户
   async findUser(id){
       let model = this.app.model
       let result = await this.app.model.User.findOne({
+          where:{
+              id
+          },
+        include:[{
+            model:model.UserRole,
+            include:[{
+                model:model.Role,
+                attributes:[],
+                raw:true, 
+            }],
+            attributes:[],
+            raw:true,
+        }],
         attributes:{include:[
             [Sequelize.col('userRole.role_id'),'roleId'],
+            [Sequelize.col('userRole->role.title'),'roleName'],
         ]},
-            include:[{
-                model:model.UserRole,
-                include:[{
-                    model:model.Role,
-                    attributes:[[Sequelize.col('title'),'title']],                
-                }],
-                attributes:[]
-            }],
-            raw:true,
-       })
+        raw:true,
+       order: [['addTime', 'DESC']]
+   })
       return result
   }
   // 删除一个用户
@@ -102,6 +105,25 @@ class AuthService extends Service {
           where:{
               id
           }
+      })
+      return result;
+  }
+  // 更新一个用户的信息 
+  async updateOneUser(id,username,password,mobile,email,roleId){
+      console.log(`roleId====>${roleId}`)
+      let result = await this.app.model.User.update({
+        username,password,mobile,email,roleId,
+      },{
+        where:{
+            id
+        }
+      })
+      await this.app.model.UserRole.update({
+        roleId,
+      },{
+        where:{
+            userId:id
+        }
       })
       return result;
   }
