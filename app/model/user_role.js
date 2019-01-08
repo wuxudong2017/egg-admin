@@ -21,7 +21,7 @@ module.exports = app => {
       field: 'user_id'
     },
     roleId: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.INTEGER(10),
       allowNull: false,
       references: {
         model: 'role',
@@ -34,12 +34,9 @@ module.exports = app => {
   });
 
   Model.associate = function() {
-
-
     app.model.UserRole.hasOne(app.model.User,{foreignKey:"id",targetKey:"userId"})
-    app.model.UserRole.hasMany(app.model.Role,{foreignKey:"id",targetKey:"roleId"})
+    app.model.UserRole.hasOne(app.model.Role,{foreignKey:"id",targetKey:"roleId"})
   }
 
   return Model;
 };
-``

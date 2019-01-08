@@ -69,15 +69,6 @@
     <script src="/public/assets/vendor/jquery-validate/jquery.validate.js"></script>
     <script src="/public/assets/vendor/jquery-validate/messages_zh.js"></script>
     <script>
-        function ObjectForm(val) {
-            let l = {};
-            var arr = val.split('&');
-            arr.forEach((item) => {
-                let t = item.split('=');
-                l[t[0]] = t[1]
-            })
-            return l;
-        }
         // /admin/login
         $(function () {
             $("#addUser").validate({
@@ -91,9 +82,8 @@
                    $.ajax({
                        method:'POST',
                        url:'/admin/manage/add',
-                       data:ObjectForm($(form).serialize()),
+                       data:$.ObjectForm($(form).serialize()),
                        success:function(res){
-                           console.log(res.message)
                            $.message(res.message,{type:res.code},function(){
                             if(res.code === 1){
                                 window.location.reload()

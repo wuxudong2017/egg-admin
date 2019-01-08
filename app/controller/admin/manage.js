@@ -4,7 +4,7 @@ const BaseController = require('./base');
 
 class ManageController extends BaseController {
   async index() {
-    let result = await this.ctx.service.admin.auth.getUserList();
+    let result = await this.ctx.service.admin.authService.getUserList();
     console.log(JSON.stringify(result))
     await this.ctx.render('/admin/manage/index',{
       result
@@ -12,7 +12,7 @@ class ManageController extends BaseController {
   }
   async add() {
     // 查询角色列表
-    let roleList = await this.ctx.service.admin.auth.getRoleList();
+    let roleList = await this.ctx.service.admin.roleService.usedRole();
     await this.ctx.render('/admin/manage/add',{
       roleList
     })
@@ -24,7 +24,8 @@ class ManageController extends BaseController {
       mobile = formData.mobile,
       email = decodeURIComponent(formData.email),
       roleId = formData.roleId;
-      let result = await this.ctx.service.admin.auth.addOneUser(username,password,mobile,email,roleId);
+      console.log(formData)
+      let result = await this.ctx.service.admin.authService.addOneUser(username,password,mobile,email,roleId);
       if(result){
         this.ctx.body = {
           code:1,
@@ -42,8 +43,9 @@ class ManageController extends BaseController {
   // 编辑用户
   async edit(){
     let id = this.ctx.request.query._id;
-    let result = await this.ctx.service.admin.auth.findUser(id);
-    let roleList = await this.ctx.service.admin.auth.getRoleList();
+    let result = await this.ctx.service.admin.authService.findUser(id);
+    let roleList = await this.ctx.service.admin.roleService.usedRole();
+    console.log(roleList)
     await this.ctx.render('/admin/manage/edit',{
       result,
       roleList
@@ -63,7 +65,7 @@ class ManageController extends BaseController {
     }else{
       id = ''
     }
-    let result = await this.ctx.service.admin.auth.deleteUser(id)
+    let result = await this.ctx.service.admin.authService.deleteUser(id)
     console.log(result)
 
 

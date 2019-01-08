@@ -5,10 +5,9 @@ module.exports = app => {
 
   const Model = app.model.define('role', {
     id: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
+      type: DataTypes.INTEGER(10),
+      allowNull: true,
       primaryKey: true,
-      autoIncrement: true,
       field: 'id'
     },
     title: {
@@ -36,8 +35,7 @@ module.exports = app => {
   });
 
   Model.associate = function() {
-
-    app.model.Role.belongsToMany(app.model.UserRole,{foreignKey:"id",targetKey:"roleId",through:'role'})
+    app.model.Role.belongsTo(app.model.UserRole,{foreignKey:'id',targetKey:'roleId'})
   }
 
   return Model;

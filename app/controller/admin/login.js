@@ -11,7 +11,7 @@ class LoginController extends Controller {
       let username = formData.username,
         password= await this.ctx.service.tools.md5(formData.password),
         captcha = formData.captcha;
-    let result = await this.ctx.service.admin.auth.doLogin(username,password);
+    let result = await this.ctx.service.admin.authService.doLogin(username,password);
     if(captcha.toLocaleLowerCase() === this.ctx.session.captcha.toLocaleLowerCase()){
       if(result){
         this.ctx.session.userInfo = result

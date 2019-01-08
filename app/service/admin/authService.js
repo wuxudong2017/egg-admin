@@ -32,33 +32,51 @@ class AuthService extends Service {
    })
     return result;
   }
-  // username 查询用户
-  async addOneUser(username,password,mobile,email,roleId){
-    let addTime = await this.ctx.service.tools.getTime();
+  // 通过username 插叙一个用户
+  async getUserByUserName(username){
     let result = await this.app.model.User.findOne({
         where:{
             username
         }
     });
-    if(result === null){
+   if(!result) throw new Error('用户名不存在')
+  }
+  
+
+  // 新加用户
+  async addOneUser(username,password,mobile,email,roleId){
+    let addTime = await this.ctx.service.tools.getTime();
+    this.app.model.transaction(function(t){
+        await getUserByUserName(username,{transaction: t });
         await this.app.model.User.create({
             username,password,mobile,email,roleId,addTime
         })
-        return true
-    }else{
-        return false
-    }
+    })
+
+
+    // let addTime = await this.ctx.service.tools.getTime();
+    // if(result === null){
+    //     await this.app.model.User.create({
+    //         username,password,mobile,email,roleId,addTime
+    //     })
+    //     return true
+    // }else{
+    //     return false
+    // }
   }
-
-
-
   // 查询一个用户
   async findUser(id){
+      let model = this.app.model
       let result = await this.app.model.User.findOne({
-          where:{
-              id
-          }
-      })
+        attributes:{include:[
+            [Sequelize.col('userRole.role_id'),'roleId'],
+        ]},
+            include:[{
+                model:model.UserRole,
+                attributes:[]
+            }],
+            raw:true,
+       })
       return result
   }
   // 删除一个用户
@@ -68,17 +86,6 @@ class AuthService extends Service {
               id
           }
       })
-      return result;
-  }
-
-
-  /**
-   * 角色管理
-   */
-  async getRoleList(){
-      let result = await this.app.model.Role.findAll({
-        order: [['addTime', 'DESC']]
-      });
       return result;
   }
 

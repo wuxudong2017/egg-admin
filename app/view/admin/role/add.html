@@ -7,13 +7,85 @@
     </div>
     <div class="panel-body">
         <div class="row">
+        {{roleList | dump}}
             <div class="col-sm-12 col-md-12">
-                <h1>add role</h1>
+                <form class="form form-horizontal" id="addRole">
+                    <input type="hidden" name="_csrf" value="{{csrf}}">
+                    <div class="form-group">
+                        <div class="col-sm-3 text-right col-xs-4">
+                            <label class="control-label">角色名称</label>
+                        </div>
+                        <div class="col-sm-6 col-xs-8 ">
+                            <input type="text" class="form-control" required autocomplete="off" name="title" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3 text-right col-xs-4">
+                            <label class="control-label">角色描述</label>
+                        </div>
+                        <div class="col-sm-6 col-xs-8 ">
+                            <input type="text" class="form-control" required autocomplete="off" name="description"
+                                value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3 text-right col-xs-4">
+                            <label class="control-label">角色状态</label>
+                        </div>
+                        <div class="col-sm-6 col-xs-8 text-left">
+                            <!-- <label class="fancy-checkbox control-label">
+                                <input type="checkbox" name="status" value="1">
+                                <span>是否使用</span>
+                            </label> -->
+                            <label class="fancy-radio  control-label">
+                                <input name="status" value="1" type="radio" checked>
+                                <span><i></i>使用</span>
+                            </label>
+                            <label class="fancy-radio control-label" style="margin-left:20px">
+                                <input name="status" value="0" type="radio">
+                                <span><i></i>禁用</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group text-center">
+                        <button class="btn btn-primary btn-md">立即提交</button>
+                        <button class="btn btn-default btn-md" type="reset">重置表单</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
 {% endblock%}
 {% block js%}
+<script src="/public/assets/vendor/jquery-validate/jquery.validate.js"></script>
+<script src="/public/assets/vendor/jquery-validate/messages_zh.js"></script>
+<script>
+    $(function () {
+        $('#addRole').validate({
+            rules: {
 
+            },
+            message: {
+
+            },
+            submitHandler: function (form) {
+                $.ajax({
+                    type: 'post',
+                    url: '/admin/role/add',
+                    data: $.ObjectForm($(form).serialize()),
+                    success: function (res) {
+                        $.message(res.message, { type: res.code }, function () {
+                            if (res.code === 1) {
+                                window.location.reload()
+                            }
+                        })
+                    }
+                })
+            }
+        })
+    })
+
+
+</script>
 {% endblock%}

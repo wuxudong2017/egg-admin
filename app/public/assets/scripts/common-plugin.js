@@ -10,7 +10,6 @@ $.extend({
         var deObj = {
             type:1,
             time:1000,
-            message:'操作成功'
         };
         var option = $.extend(deObj,obj)
         var $wrap =$('<div id="toast-container" class="toast-top-right"></div>'),
@@ -26,7 +25,7 @@ $.extend({
             }else{
                 $box.attr('class',' toast toast-info')
             }
-            $con.text(option.message)
+            $con.text(message)
             var win = $wrap.width()
             $('body').append($wrap.append($box.append($closeBtn).append($con)));
             $closeBtn.bind('click',function(){
@@ -83,8 +82,16 @@ $.extend({
                 $wrap.remove()
             })
 
-    }
-
-
+    },
+    // form 表单数据格式化
+ ObjectForm:function(val) {
+    let l = {};
+    var arr = val.split('&');
+    arr.forEach((item) => {
+        let t = item.split('=');
+        l[t[0]] = t[1]
+    })
+    return l;
+}
 })
 

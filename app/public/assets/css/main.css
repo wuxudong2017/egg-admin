@@ -468,7 +468,7 @@ ul.list-justify > li {
 
 /* fancy checkbox and radio button */
 .fancy-checkbox {
-  display: block;
+  display: inline-block;
   font-weight: normal; }
   .fancy-checkbox input[type="checkbox"] {
     display: none; }
@@ -512,7 +512,7 @@ ul.list-justify > li {
     border-color: #32cf4d; }
 
 .fancy-radio {
-  display: block;
+  display: inline-block;
   font-weight: normal; }
   .fancy-radio input[type="radio"] {
     display: none; }

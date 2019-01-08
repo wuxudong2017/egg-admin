@@ -24,6 +24,10 @@ module.exports = app => {
      // 角色
      router.get('/admin/role',controller.admin.role.index)
      router.get('/admin/role/add',controller.admin.role.add)
+     router.post('/admin/role/add',controller.admin.role.doAdd)
+     router.get('/admin/role/edit',controller.admin.role.edit)
+    router.post('/admin/role/edit',controller.admin.role.doEdit)
+     router.get('/admin/role/delete',controller.admin.role.delete)
 
     //api
 
