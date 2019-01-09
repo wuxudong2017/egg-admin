@@ -2,7 +2,8 @@ module.exports = (options,app)=>{
     return async function authAdmin(ctx,next){
             let pathName = ctx.request.url;
             ctx.state.csrf = ctx.csrf;
-            ctx.state.pageNum = ctx.request.query.page | null;
+            console.log(ctx.request.query.page)
+            ctx.state.pageNum = ctx.request.query.page?ctx.request.query.page : 1;
             ctx.state.pathName = pathName;
             if(ctx.session.userInfo){
                 if(pathName.indexOf('/login')>-1){

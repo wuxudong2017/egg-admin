@@ -6,7 +6,6 @@
         <h3 class="panel-title">用户列表</h3>
         <p class="panel-subtitle"></p>
     </div>
-    {{result | dump}}
     <div class="panel-body">
         <div class="row">
             <div class="col-sm-12 col-md-12">
@@ -37,14 +36,13 @@
                         {% endfor%}
                     </tbody>
                 </table>
-                <ul id="page" class="pagination pagination-sm"></ul> 
+               {% include '../public/pager.html'%}
             </div>
         </div>
     </div>
     {% endblock %}
   
     {% block js%}
-     <script src="/public/assets/scripts/jq-paginator.js"></script>
         <script>
             $('.delete').click(function(){
                 let id = $(this).data('id');
@@ -59,26 +57,6 @@
                     })
                 })
             }) 
-            // 分页
-              $('#page').jqPaginator({
-                    totalPages: {{result.count}},
-                    visiblePages: {{result.count / 1}},
-                    currentPage:  {{pageNum}},
-                    first: '<li class="first"><a href="javascript:void(0);">首页</a></li>',
-
-                    prev: '<li class="prev"><a href="javascript:void(0);">上一页</a></li>',
-
-                    next: '<li class="next"><a href="javascript:void(0);">下一页</a></li>',
-
-                    last: '<li class="last"><a href="javascript:void(0);">最后一页</a></li>',
-
-                    page: '<li class="page"><a href="javascript:void(0);">{{'{{page}}'}}</a></li>',
-                    onPageChange: function (num, type) {
-                      //  console.log('当前第' + num + '页',type);
-                        if(type=='change'){
-                        location.href="?page="+num;
-                        }
-                    }
-                });                   
+                  
         </script>
     {% endblock%}

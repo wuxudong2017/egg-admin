@@ -35,7 +35,7 @@ class AuthService extends Service {
             [Sequelize.col('userRole->role.title'),'roleName'],
         ]},
         raw:true,
-        limit:1,
+        limit:10,
         offset:offset-1,
        order: [['addTime', 'DESC']]
    })

@@ -21,6 +21,24 @@
     <!-- ICONS -->
     <link rel="apple-touch-icon" sizes="76x76" href="/public/assets/img/apple-icon.png">
     <link rel="icon" type="image/png" sizes="96x96" href="/public/assets/img/favicon.png">
+     <!-- Javascript -->
+    <script src="/public/assets/vendor/jquery/jquery.min.js"></script>
+    <script src="/public/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/public/assets/scripts/common-plugin.js"></script>
+    <script src="/public/assets/scripts/common-fn.js"></script>
+    <script>
+        $(function () {
+            // 退出登录
+            $('#layOut').click(function () {
+                var a = confirm('确定要退出吗?');
+                if (a) {
+                    $.get('/admin/layOut', function (res) {
+                        window.location.reload()
+                    })
+                }
+            })
+        })
+    </script>
 </head>
 
 <body>
@@ -428,26 +446,6 @@
         </footer>
     </div>
     <!-- END WRAPPER -->
-    <!-- Javascript -->
-    <script src="/public/assets/vendor/jquery/jquery.min.js"></script>
-    <script src="/public/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
-    <script src="/public/assets/scripts/common-plugin.js"></script>
-    <script src="/public/assets/scripts/common-fn.js"></script>
-    <script>
-        $(function () {
-            // 退出登录
-            $('#layOut').click(function () {
-                var a = confirm('确定要退出吗?');
-                if (a) {
-                    $.get('/admin/layOut', function (res) {
-                        window.location.reload()
-                    })
-                }
-            })
-        })
-
-
-    </script>
     {%block js%}
     <script src="/public/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
     <script src="/public/assets/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js"></script>
