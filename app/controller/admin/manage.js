@@ -4,7 +4,8 @@ const BaseController = require('./base');
 
 class ManageController extends BaseController {
   async index() {
-    let result = await this.ctx.service.admin.authService.getUserList();
+    let offset = Number(this.ctx.request.query.page);
+    let result = await this.ctx.service.admin.authService.getUserList(offset);
     console.log(JSON.stringify(result))
     await this.ctx.render('/admin/manage/index',{
       result

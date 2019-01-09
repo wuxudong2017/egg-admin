@@ -29,6 +29,11 @@ module.exports = app => {
     router.post('/admin/role/edit',controller.admin.role.doEdit)
      router.get('/admin/role/delete',controller.admin.role.delete)
 
+
+     // 分页测试
+     router.get('/admin/pager',controller.admin.role.pager)
+
+
     //api
 
 

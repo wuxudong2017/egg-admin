@@ -3,6 +3,15 @@
 const BaseController = require('./base');
 
 class RoleController extends BaseController {
+  // 分页测试
+  async pager(){
+    await this.ctx.render('/admin/public/pager')
+
+
+  }
+
+
+
   // 获取角色列表
   async index() {
     let result = await this.ctx.service.admin.roleService.index()

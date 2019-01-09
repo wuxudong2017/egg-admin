@@ -16,7 +16,7 @@ class AuthService extends Service {
     }
   }
   // 用户管理
-  async getUserList(){
+  async getUserList(offset){
       let model = this.app.model;
      // 多表关联查询数据,并重新命名字段名
    let result = await this.app.model.User.findAndCountAll({
@@ -35,6 +35,8 @@ class AuthService extends Service {
             [Sequelize.col('userRole->role.title'),'roleName'],
         ]},
         raw:true,
+        limit:1,
+        offset:offset-1,
        order: [['addTime', 'DESC']]
    })
     return result;

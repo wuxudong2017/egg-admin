@@ -1,0 +1,60 @@
+{% extends '../index.html'%}
+{% block content%}
+{# 分页器模板 #}
+{% macro page(total, curr, count) %}
+{% if total >= 2 %}
+  {% set step = 3 %}
+  <nav data-total="{{total}}" data-curr="{{curr}}" class="pagination-wrap">
+    <ul style="vertical-align: middle" class="pagination">
+      {# 添加上一页 #}
+      {% if curr > 1 %}
+      <li><a data-index="{{ curr - 1 }}" href="{{controller|url({_pn: curr-1},[])}}">«</a></li>
+      {% endif %}
+
+      {# 当前页之前 #}
+      {% if (curr - step) > 2 %}
+        <li><a data-index="1" href="{{controller|url({_pn: 1},[])}}">1</a></li>
+        <li class='omission'><span>...</span></li>
+        {% for index in range(curr-step, curr) %}
+          <li><a data-index="{{ index }}" href="{{controller|url({_pn: index},[])}}">{{ index }}</a></li>
+        {% endfor %}
+      {% else %}
+        {% for index in range(1, curr) %}
+          <li><a data-index="{{ index }}" href="{{controller|url({_pn: index},[])}}">{{ index }}</a></li>
+        {% endfor %}
+      {% endif %}
+
+      {# 当前页 #}
+      <li class="active"><span data-index="{{ curr }}">{{curr}}</span></li>
+
+      {# 当前页之后 #}
+      {% if (total - curr - step) >= 2 %}
+        {% for index in range((curr+1), (curr+step+1))%}
+          <li><a data-index="{{ index }}" href="{{controller|url({_pn: index},[])}}">{{ index }}</a></li>
+        {% endfor %}
+        <li class='omission'><span>...</span></li>
+        <li><a data-index="{{total}}" href="{{controller|url({_pn: total},[])}}">{{total}}</a></li>
+      {% else %}
+        {% for index in range((curr+1), total+1)%}
+          <li><a data-index="{{ index }}" href="{{controller|url({_pn: index},[])}}">{{ index }}</a></li>
+        {% endfor %}
+      {% endif %}
+
+      {# next #}
+      {% if curr < total %}
+        <li><a data-index="{{ curr + 1 }}" href="{{controller|url({_pn: curr+1},[])}}">»</a></li>
+      {% endif %}
+
+      <li class="go-input"><a><input type="text" placeholder="跳页"></a></li>
+      <li><a class="js-pager-go">跳转</a></li>
+
+    </ul>
+    <span>共{{count}}条数据</span>
+  </nav>
+{% endif %}
+{% endmacro %}
+
+{# {{page(data.totalPages, data.currentPage, data.count)}} #}
+{{page(50, 10, 500)}}
+
+{% endblock%}
