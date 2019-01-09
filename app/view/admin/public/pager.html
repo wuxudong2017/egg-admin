@@ -1,29 +1,29 @@
-<ul id="page" class="pagination pagination-sm"></ul> 
+<ul id="page" class="pagination pagination-sm"></ul>
 
 {% block js%}
 <script src="/public/assets/scripts/jq-paginator.js"></script>
 <script>
   // 分页
   $('#page').jqPaginator({
-                    totalPages: {{ (result.count/10)|round(0,'ceil') }},
-                    visiblePages: 5,
-                    currentPage:  {{pageNum}},
-                    first: '<li class="first"><a href="javascript:void(0);">首页</a></li>',
+    totalPages: {{ (result.count / 4) | round(0, 'ceil') }},
+    visiblePages: 5,
+    currentPage: {{ pageNum }},
+    first: '<li class="first"><a href="javascript:void(0);">首页</a></li>',
 
-                    prev: '<li class="prev"><a href="javascript:void(0);">上一页</a></li>',
+    prev: '<li class="prev"><a href="javascript:void(0);">上一页</a></li>',
 
-                    next: '<li class="next"><a href="javascript:void(0);">下一页</a></li>',
+    next: '<li class="next"><a href="javascript:void(0);">下一页</a></li>',
 
-                    last: '<li class="last"><a href="javascript:void(0);">最后一页</a></li>',
+    last: '<li class="last"><a href="javascript:void(0);">最后一页</a></li>',
 
-                    page: '<li class="page"><a href="javascript:void(0);">{{'{{page}}'}}</a></li>',
-                    onPageChange: function (num, type) {
-                      //  console.log('当前第' + num + '页',type);
-                        if(type=='change'){
-                        location.href="?page="+num;
-                        }
-                    }
-                });           
+    page: '<li class="page"><a href="javascript:void(0);">{{"{{page}}"}}</a></li>',
+    onPageChange: function (num, type) {
+      //  console.log('当前第' + num + '页',type);
+      if (type == 'change') {
+        location.href = "?page=" + num;
+      }
+    }
+  });
 
 </script>
 {% endblock%}
