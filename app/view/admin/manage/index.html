@@ -8,9 +8,6 @@
     </div>
     <div class="panel-body">
         <div class="row">
-            <p style="width:90%;word-wrap:break-word">
-                {{result|dump}}
-            </p>
             <div class="col-sm-12 col-md-12">
                 <table class="table  table-striped text-center">
                     <thead>
@@ -53,7 +50,9 @@
                     $.get('/admin/manage/delete',{
                         id:id
                     },function(res){
-                        console.log(res)
+                       $.message(res.message,{time:1000,type:res.code},function(){
+                           window.location.reload()
+                       })
                     })
                 })
             })        

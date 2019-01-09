@@ -19,7 +19,7 @@ class ManageController extends BaseController {
   }
   async doAdd() {
     let formData = this.ctx.request.body;    
-  let username = formData.username,
+  let username = decodeURIComponent(formData.username),
       password = await this.ctx.service.tools.md5(formData.password),
       mobile = formData.mobile,
       email = decodeURIComponent(formData.email),
@@ -84,7 +84,19 @@ class ManageController extends BaseController {
       id = ''
     }
     let result = await this.ctx.service.admin.authService.deleteUser(id)
-    console.log(result)
+    if(result){
+      this.ctx.body = {
+        code:1,
+        message:'删除用户成功',
+        data:null
+      }
+    }else{
+      this.ctx.body = {
+        code:0,
+        message:'删除用户失败',
+        data:null
+      }
+    }
 
 
   }
