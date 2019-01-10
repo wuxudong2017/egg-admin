@@ -5,7 +5,7 @@
 <script>
   // 分页
   $('#page').jqPaginator({
-    totalPages: {{ (result.count / 4) | round(0, 'ceil') }},
+    totalPages: {{1 if  ((result.count / 4) | round(0, 'ceil'))<1 else ((result.count / 4) | round(0, 'ceil')) }},
     visiblePages: 5,
     currentPage: {{ pageNum }},
     first: '<li class="first"><a href="javascript:void(0);">首页</a></li>',

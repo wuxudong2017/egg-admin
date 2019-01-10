@@ -1,0 +1,143 @@
+{% extends '../index.html'%}
+{% block content%}
+<div class="panel panel-headline">
+    <div class="panel-heading">
+        <h3 class="panel-title">新增权限</h3>
+        <p class="panel-subtitle"></p>
+    </div>
+    <div class="panel-body">
+        {{result | dump}}
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <form class="form form-horizontal" id="addUser">
+                    <input type="hidden" name="_csrf" value="{{csrf}}">
+                    <div class="form-group">
+                        <div class="col-sm-3 text-right col-xs-4">
+                            <label class="control-label">模块名称</label>
+                        </div>
+                        <div class="col-sm-6 col-xs-8 ">
+                            <input type="text" name="moduleName" class="form-control" required autocomplete="off" value="{{result.moduleName}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3 text-right col-xs-4">
+                            <label class="control-label">节点类型</label>
+                        </div>
+                        <div class="col-sm-6 col-xs-8 ">
+                            <select name="type" id="typeId" class="form-control">
+                                
+                                <option value="1" {{'selected' if result.type == 1 else null}}>模块</option>
+                                <option value="2" {{'selected' if result.type == 2 else null}}>菜单</option>
+                                <option value="3" {{'selected' if result.type == 3 else null}}>操作</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="other" style="display:none">
+                        <div class="form-group">
+                            <div class="col-sm-3 text-right col-xs-4">
+                                <label class="control-label">操作名称</label>
+                            </div>
+                            <div class="col-sm-6 col-xs-8 ">
+                                <input type="text" name="actionName" class="form-control" required autocomplete="off"
+                                    value="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-3 text-right col-xs-4">
+                                <label class="control-label">操作地址</label>
+                            </div>
+                            <div class="col-sm-6 col-xs-8 ">
+                                <input type="text" class="form-control" required autocomplete="off" name="url" value="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3 text-right col-xs-4">
+                            <label class="control-label">所属模块</label>
+                        </div>
+                        <div class="col-sm-6 col-xs-8 ">
+                            <select name="moduleId" id="" class="form-control">
+                                <option value="0" {{'selected' if result.moduleId == 0 else null}}>顶级模块</option>
+                                {% for item in moduleList%}
+                                <option value="{{item.id}}">{{item.moduleName}}</option>
+                                {% endfor%}
+                                <!-- <option value="1">菜单</option>
+                                <option value="2">父亲模块</option> -->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3 text-right col-xs-4">
+                            <label class="control-label">排序</label>
+                        </div>
+                        <div class="col-sm-6 col-xs-8 ">
+                            <input type="text" name="sort"  class="form-control" value="{{result.sort}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3 text-right col-xs-4">
+                            <label class="control-label">描述</label>
+                        </div>
+                        <div class="col-sm-6 col-xs-8 ">
+                            <textarea type="text" name="description" class="form-control" style="resize: none">{{result.description}}</textarea>
+                        </div>
+                    </div>
+                    <div class="form-group text-center">
+                        <button class="btn btn-primary btn-md">立即提交</button>
+                        <button class="btn btn-default btn-md" type="reset">重置表单</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endblock%}
+    {% block js%}
+    <script src="/public/assets/vendor/jquery-validate/jquery.validate.js"></script>
+    <script src="/public/assets/vendor/jquery-validate/messages_zh.js"></script>
+    <script>
+        // /admin/login
+        $(function () {
+            $("#addUser").validate({
+                rules: {
+
+                },
+                message: {
+
+                },
+                submitHandler: function (form) {
+                    $.ajax({
+                        method: 'POST',
+                        url: '/admin/access/edit',
+                        data: $.ObjectForm($(form).serialize()),
+                        success: function (res) {
+                            $.message(res.message, { type: res.code }, function () {
+                                if (res.code === 1) {
+                                    window.location.reload()
+                                }
+                            })
+
+                        }
+                    })
+                }
+            });
+            if(Number($("#typeId").val() )=== 1){
+                $('.other').hide();
+            }else{
+                $('.other').show();
+            }
+            // 模块选择操作
+            $("#typeId").on('change', function (ev) {
+                let val = this.options[this.selectedIndex].value;
+                if (Number(val) === 1) {
+                    $('.other').hide();
+                } else {
+                    $('.other').show()
+                }
+            })
+
+
+        })
+
+    </script>
+
+    {% endblock%}

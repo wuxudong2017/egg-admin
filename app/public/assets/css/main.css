@@ -56,8 +56,15 @@ footer {
   float: left;
   background-color: #2B333E;
   position: fixed;
-  left: 0; }
-
+  left: 0;
+  overflow-x: hidden;
+}
+#wrapper .sidebar-scroll{
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  width: 280px;
+}
 #wrapper .main {
   -webkit-transition: all 0.3s ease-in-out;
   -moz-transition: all 0.3s ease-in-out;
