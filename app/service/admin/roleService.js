@@ -7,8 +7,10 @@ class RoleService extends Service {
     /**
      * 角色管理
      */
-    async index(){
-        let result = await this.app.model.Role.findAll({
+    async index(offset){
+        let result = await this.app.model.Role.findAndCountAll({
+        limit:4,
+        offset:(offset-1)*4,
         order: [['addTime', 'DESC']]
         });
         return result;

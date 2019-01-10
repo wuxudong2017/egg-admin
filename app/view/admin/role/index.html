@@ -20,7 +20,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                           {% for item  in result%}
+                            {%set data = result.rows%}
+                           {% for item  in data%}
                             <tr>
                                 <td>{{item.title}}</td>
                                 <td>{{item.description}}</td>
@@ -40,9 +41,8 @@
                             </tr>
                            {% endfor%}
                         </tbody>
-
-
                     </table>
+                    {% include '../public/pager.html'%}
                 </div>
             </div>
         </div>

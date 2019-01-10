@@ -22,16 +22,13 @@ module.exports = app => {
     router.post('/admin/manage/edit',controller.admin.manage.doEdit)
     router.get('/admin/manage/delete',controller.admin.manage.delete)
      // 角色
-     router.get('/admin/role',controller.admin.role.index)
-     router.get('/admin/role/add',controller.admin.role.add)
-     router.post('/admin/role/add',controller.admin.role.doAdd)
-     router.get('/admin/role/edit',controller.admin.role.edit)
+    router.get('/admin/role',controller.admin.role.index)
+    router.get('/admin/role/add',controller.admin.role.add)
+    router.post('/admin/role/add',controller.admin.role.doAdd)
+    router.get('/admin/role/edit',controller.admin.role.edit)
     router.post('/admin/role/edit',controller.admin.role.doEdit)
-     router.get('/admin/role/delete',controller.admin.role.delete)
+    router.get('/admin/role/delete',controller.admin.role.delete)
 
-
-     // 分页测试
-     router.get('/admin/pager',controller.admin.role.pager)
 
 
     //api
