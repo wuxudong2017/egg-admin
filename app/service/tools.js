@@ -2,7 +2,7 @@
 
 const Service = require('egg').Service;
 const svgCaptcha = require('svg-captcha');
-
+const uuid = require('uuid/v1')
 const md5 =require('md5')
 class ToolsService extends Service {
   async md5(val) {
@@ -22,6 +22,10 @@ class ToolsService extends Service {
   async getTime(){
     let d = new Date();
     return d.getTime()
+  }
+  // uuid 生成id
+  async uuid(){
+    return uuid()
   }
 
 

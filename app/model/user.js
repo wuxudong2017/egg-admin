@@ -5,10 +5,9 @@ module.exports = app => {
 
   const Model = app.model.define('user', {
     id: {
-      type: DataTypes.INTEGER(10),
-      allowNull: true,
+      type: DataTypes.STRING(255),
+      allowNull: false,
       primaryKey: true,
-      autoIncrement: true,
       field: 'id'
     },
     username: {

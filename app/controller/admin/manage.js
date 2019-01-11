@@ -35,7 +35,7 @@ class ManageController extends BaseController {
       }else{
         this.ctx.body = {
           code:0,
-          message:'用户名已存在',
+          message:'添加用户失败',
           data:null
         }
       }

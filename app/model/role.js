@@ -8,6 +8,7 @@ module.exports = app => {
       type: DataTypes.INTEGER(10),
       allowNull: true,
       primaryKey: true,
+      autoIncrement: true,
       field: 'id'
     },
     title: {
@@ -35,7 +36,7 @@ module.exports = app => {
   });
 
   Model.associate = function() {
-    app.model.Role.hasOne(app.model.UserRole,{foreignKey:'id',targetKey:'roleId'})
+    app.model.UserRole.hasOne(app.model.UserRole,{foreignKey:'roleId',targetKey:'id'})
   }
 
   return Model;

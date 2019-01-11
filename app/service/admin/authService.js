@@ -50,8 +50,6 @@ class AuthService extends Service {
     });
    return result
   }
-  
-
   // 新加用户
   async addOneUser(username,password,mobile,email,roleId){
     let addTime = await this.ctx.service.tools.getTime();
@@ -60,17 +58,24 @@ class AuthService extends Service {
             username
         }
     });
+    const t = await this.app.model.transaction({autoCommit:true});
+    let uuid = await this.ctx.service.tools.uuid()
     if(result === null){
-        await this.app.model.User.create({
-            username,password,mobile,email,roleId,addTime
-        })
-        
-       await this.app.model.UserRole.create({
-           userId:await this.app.model.User.max('id'),
-           roleId,
-       })
-
-       return true;
+        try {
+            await this.app.model.User.create({
+                id:uuid,username,password,mobile,email,roleId,addTime
+            },{transaction:t})
+           await this.app.model.UserRole.create({
+               userId:uuid,
+               roleId,
+           },{transaction:t})
+           await t.commit()
+           return true;
+        }catch(e){
+            console.log(e)
+            await t.rollback()
+            return false
+        }
     }else{
         return false
     }
