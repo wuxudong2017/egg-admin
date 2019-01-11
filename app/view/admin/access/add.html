@@ -6,7 +6,6 @@
         <p class="panel-subtitle"></p>
     </div>
     <div class="panel-body">
-        {{moduleList | dump}}
         <div class="row">
             <div class="col-sm-12 col-md-12">
                 <form class="form form-horizontal" id="addUser">
@@ -111,7 +110,7 @@
                         success: function (res) {
                             $.message(res.message, { type: res.code }, function () {
                                 if (res.code === 1) {
-                                    window.location.reload()
+                                   // window.location.reload()
                                 }
                             })
 

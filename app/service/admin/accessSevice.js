@@ -39,7 +39,7 @@ class AccessSeviceService extends Service {
   }
 
   // 添加一个权限
-  async addOneAccess(moduleName,sort,type,actionName,moduleId,description){
+  async addOneAccess(moduleName,sort,type,url,actionName,moduleId,description){
       let id = await this.ctx.service.tools.uuid();
       let addTime = await this.ctx.service.tools.getTime();
 
@@ -47,7 +47,7 @@ class AccessSeviceService extends Service {
         where:{moduleName}
       });
       let result = await this.app.model.Access.create({
-        id,moduleName,type,sort,actionName,moduleId,description,addTime
+        id,moduleName,type,url,sort,actionName,moduleId,description,addTime
       })
       return result;
       // if(!val){
@@ -60,16 +60,18 @@ class AccessSeviceService extends Service {
       // }
   }
   // 编辑一个权限
-  async updateOneById(id,formadata){
+  async updateOneById(id,type,actionName,url,moduleId,sort,description){
+    console.log(`service--id------->${id}`)
     const t = await this.app.model.transaction();
-    console.log(id)
     try{
         await this.app.model.Access.findOne({
           where:{
             id
           }
         },{transaction:t});
-        await this.app.model.Access.update(formadata,{transaction:t})
+        await this.app.model.Access.update({type,actionName,url,moduleId,sort,description},{
+          where:{id}
+        },{transaction:t})
       await  t.commit();
       return true
     }catch(e){
@@ -78,6 +80,12 @@ class AccessSeviceService extends Service {
       await t.rollback();
       return false
     }
+  }
+  // 删除一个权限
+  async deleteOne(id){
+    return await this.app.model.Access.destroy({
+      where:{id}
+    })
   }
 
 }
