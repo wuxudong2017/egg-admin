@@ -25,7 +25,6 @@
                         </div>
                         <div class="col-sm-6 col-xs-8 ">
                             <select name="type" id="typeId" class="form-control">
-
                                 <option value="1" {{'selected' if result.type == 1 else null}}>模块</option>
                                 <option value="2" {{'selected' if result.type == 2 else null}}>菜单</option>
                                 <option value="3" {{'selected' if result.type == 3 else null}}>操作</option>
@@ -95,7 +94,6 @@
     <script src="/public/assets/vendor/jquery-validate/jquery.validate.js"></script>
     <script src="/public/assets/vendor/jquery-validate/messages_zh.js"></script>
     <script>
-
         $(function () {
             $("#addUser").validate({
                 rules: {
@@ -116,7 +114,6 @@
                                     window.location.reload()
                                 }
                             })
-
                         }
                     })
                 }
@@ -137,5 +134,4 @@
             })
         })
     </script>
-
     {% endblock%}

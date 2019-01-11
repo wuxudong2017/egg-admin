@@ -69,7 +69,6 @@ $.extend({
             $cancel=$('<button class="btn btn-default btn-md">取消</button>');
             $content = $('<h4>'+content+'</h4>')
             $wrap.append($bg.append($con.append($head.prepend($close)).append($body.append($content).append()).append($foot.append($sure).append($cancel))))
-            
             $('body').append($wrap)
             $sure.bind('click',function(){
                 callback1();
@@ -81,7 +80,6 @@ $.extend({
             $cancel.bind('click',function(){
                 $wrap.remove()
             })
-
     },
     // form 表单数据格式化
     ObjectForm:function(val) {
