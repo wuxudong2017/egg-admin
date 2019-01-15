@@ -6,7 +6,7 @@ module.exports = app => {
   const Model = app.model.define('roleAccess', {
     id: {
       type: DataTypes.INTEGER(10),
-      allowNull: false,
+      allowNull: true,
       primaryKey: true,
       field: 'id'
     },

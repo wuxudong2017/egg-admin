@@ -5,8 +5,7 @@ const Controller = require('egg').Controller;
 class AccessController extends Controller {
     // 获取权限列表
   async index() {
-    let offset = Number(this.ctx.request.query.page?this.ctx.request.query.page:1)
-    let result  = await this.ctx.service.admin.accessSevice.findAccess(offset)
+    let result  = await this.ctx.service.admin.accessSevice.findAccess()
     await this.ctx.render('/admin/access/index',{
       result
     })
@@ -27,8 +26,9 @@ class AccessController extends Controller {
     let moduleId = decodeURIComponent(formData.moduleId)
     let sort = decodeURIComponent(formData.sort)
     let description = decodeURIComponent(formData.description);
-    let url = decodeURIComponent(formData.url)
-    let result = await this.ctx.service.admin.accessSevice.addOneAccess(moduleName,sort,url,type,actionName,moduleId,description)
+    let url = Boolean(formData.url)?decodeURIComponent(formData.url):"";
+
+    let result = await this.ctx.service.admin.accessSevice.addOneAccess(moduleName,actionName,type,moduleId,sort,description,url)
     if(result){
       this.ctx.body={
         code:1,

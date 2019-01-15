@@ -45,7 +45,7 @@
                                 <label class="control-label">操作地址</label>
                             </div>
                             <div class="col-sm-6 col-xs-8 ">
-                                <input type="text" class="form-control" required autocomplete="off" name="url" value="">
+                                <input type="text" class="form-control" value="" name="action"  required autocomplete="off" >
                             </div>
                         </div>
                     </div>
@@ -59,8 +59,6 @@
                                 {% for item in moduleList%}
                                 <option value="{{item.id}}">{{item.moduleName}}</option>
                                 {% endfor%}
-                                <!-- <option value="1">菜单</option>
-                                <option value="2">父亲模块</option> -->
                             </select>
                         </div>
                     </div>
@@ -103,6 +101,7 @@
 
                 },
                 submitHandler: function (form) {
+
                     $.ajax({
                         method: 'POST',
                         url: '/admin/access/add',
@@ -110,7 +109,7 @@
                         success: function (res) {
                             $.message(res.message, { type: res.code }, function () {
                                 if (res.code === 1) {
-                                   // window.location.reload()
+                                    window.location.reload()
                                 }
                             })
 

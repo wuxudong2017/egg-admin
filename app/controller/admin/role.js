@@ -93,6 +93,40 @@ class RoleController extends BaseController {
     }
 
   }
+  // 角色授权
+  async auth(){
+    let id = decodeURIComponent(this.ctx.request.query.id);
+    // 返回当前角色id下的权限id
+    let result =await this.ctx.service.admin.roleService.getRoleAccess(id);
+    let accessList =await this.ctx.service.admin.accessSevice.findAccess();
+    await this.ctx.render('/admin/role/auth',{
+      id,
+      accessList,
+      result
+    })
+  }
+  async doAuth (){
+    let formData = this.ctx.request.body;
+    let accessNode = formData.accessNode;
+    let roleId = Number(formData.roleId);
+    try{
+      await accessNode.forEach(async (item,index) => {
+        await  this.ctx.service.admin.roleService.addAccess(roleId,item)
+       });
+      this.ctx.body = {
+        code:1,
+        message:'添加权限成功',
+        data:null
+      }
+    }catch(e){
+      this.ctx.body = {
+        code:0,
+        message:'添加权限失败',
+        data:null
+      }
+    }
+  }
+
 
 }
 

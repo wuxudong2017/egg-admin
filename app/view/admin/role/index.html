@@ -35,7 +35,9 @@
                                   
                                   </td>
                                 <td>{{helper.formatDate(item.addTime)}}</td>
-                               <td><a href="/admin/role/edit?id={{item.id}}" class="btn btn-xs btn-primary">编辑</a>
+                               <td>
+                                    <a href="/admin/role/auth?id={{item.id}}" class="btn btn-xs btn-warning">编辑权限</a>
+                                   <a href="/admin/role/edit?id={{item.id}}" class="btn btn-xs btn-primary">编辑</a>
                                     <button class="btn btn-xs btn-danger delete" data-id="{{item.id}}">删除</button>
                                 </td>
                             </tr>
