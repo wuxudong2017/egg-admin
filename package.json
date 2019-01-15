@@ -11,7 +11,9 @@
     "koa-compress": "^3.0.0",
     "md5": "^2.2.1",
     "mysql2": "^1.6.4",
-    "svg-captcha": "^1.3.12"
+    "silly-datetime": "^0.1.2",
+    "svg-captcha": "^1.3.12",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "autod": "^3.0.1",
