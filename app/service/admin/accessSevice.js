@@ -12,7 +12,7 @@ class AccessSeviceService extends Service {
       where:{
         moduleId:'0'
       },
-
+    
       order:[['addTime','DESC']]
     });
     return result;

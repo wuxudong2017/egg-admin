@@ -6,6 +6,9 @@ module.exports = (options,app)=>{
             ctx.state.pageNum = ctx.request.query.page?ctx.request.query.page : 1;
             ctx.state.pathName = pathName;
             if(ctx.session.userInfo){
+                let hasAuth = await ctx.service.admin.admin.checkAuth();
+                console.log(`hasAuth---------->${hasAuth}`)
+
                 if(pathName.indexOf('/login')>-1){
                     await ctx.redirect('/admin')
                 }else{

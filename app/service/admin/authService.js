@@ -41,7 +41,7 @@ class AuthService extends Service {
    })
     return result;
   }
-  // 通过username 插叙一个用户
+  // 通过username 查询一个用户
   async getUserByUserName(username,opt){
     let result = await this.app.model.User.findOne({
         where:{
@@ -59,7 +59,7 @@ class AuthService extends Service {
         }
     });
     const t = await this.app.model.transaction({autoCommit:true});
-    let uuid = await this.ctx.service.tools.uuid()
+    const uuid = await this.ctx.service.tools.uuid()
     if(result === null){
         try {
             await this.app.model.User.create({

@@ -18,7 +18,6 @@ class RoleController extends BaseController {
   // post 新加角色
   async doAdd(){
     let formData = this.ctx.request.body;
-    console.log(formData)
     let title  = decodeURIComponent(formData.title);
     let description = decodeURIComponent(formData.description);
     let status = formData.status;
@@ -51,12 +50,10 @@ class RoleController extends BaseController {
   async doEdit(){
     let formData = this.ctx.request.body;
     let id = formData.id;
-    console.log(formData)
     let title = decodeURIComponent(formData.title);
     let description = decodeURIComponent(formData.description);
     let status = formData.status;
     let result = await this.ctx.service.admin.roleService.editRole(id,title,description,status);
-    console.log(`result ====> ${result}`)
     if(Number(result) === 1){
       this.ctx.body={
           code:1,
@@ -99,10 +96,24 @@ class RoleController extends BaseController {
     // 返回当前角色id下的权限id
     let result =await this.ctx.service.admin.roleService.getRoleAccess(id);
     let accessList =await this.ctx.service.admin.accessSevice.findAccess();
+    let accessListA = JSON.parse(JSON.stringify(accessList))['rows'];
+    let roleMesage = await this.ctx.service.admin.roleService.getOneRole(id)
+    result.forEach(item => {
+      accessListA.forEach(itemB =>{
+        if(itemB.id == item.accessId){
+          itemB.checked = true
+        }
+        itemB['accesses'].forEach(itemC => {
+          if(itemC.id == item.accessId){
+            itemC.checked = true
+          }
+        })
+      })
+    })
     await this.ctx.render('/admin/role/auth',{
       id,
-      accessList,
-      result
+      accessListA,
+      roleMesage
     })
   }
   async doAuth (){
