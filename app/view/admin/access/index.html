@@ -1,0 +1,95 @@
+{% extends '../index.html'%}
+{% block content%}
+<div class="panel panel-headline">
+    <div class="panel-heading">
+        <h3 class="panel-title">权限列表</h3>
+        <p class="panel-subtitle"></p>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <table class="table  table-striped table-bordered text-center">
+                    <thead>
+                        <tr>
+                            <th>模块名称</th>
+                            <th>节点类型</th>
+                            <th>操作名称</th>
+                            <th>操作地址</th>
+                            <th>排序</th>
+                            <th>描述</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in result.rows%}
+                            <tr>
+                                <td>{{item.moduleName}}</td>
+                                <td>
+                                    {% if (item.type | int) ===1 %}
+                                    模块
+                                    {% elif (item.type | int) ===2 %}
+                                    菜单
+                                    {% else %}
+
+                                    操作
+                                    {% endif %}
+                                </td>
+                                <td>{{item.actionName}}</td>
+                                <td>{{item.url}}</td>
+                                <td>{{item.sort}}</td>
+                                <td>{{item.description}}</td>
+                                <td>
+                                        <a href="/admin/access/edit?id={{item.id}}" class="btn btn-xs btn-primary">编辑</a>
+                                    <button class="btn btn-xs btn-danger delete" data-id="{{item.id}}">删除</button>
+                                </td>
+                            </tr>
+                                    {% for itemA in item.accesses%}
+                                    <tr >
+                                        <td>----{{itemA.moduleName}}</td>
+                                        <td>
+                                            {% if (itemA.type | int) ===1 %}
+                                            模块
+                                            {% elif (itemA.type | int) ===2 %}
+                                            菜单
+                                            {% else %}
+        
+                                            操作
+                                            {% endif %}
+                                        </td>
+                                        <td>{{itemA.actionName}}</td>
+                                        <td >{{itemA.url}}</td>
+                                        <td>{{itemA.sort}}</td>
+                                        <td>{{itemA.description}}</td>
+                                        <td>
+                                            <a href="/admin/access/edit?id={{itemA.id}}" class="btn btn-xs btn-primary">编辑</a>
+                                            <button class="btn btn-xs btn-danger delete" data-id="{{itemA.id}}">删除</button>
+                                        </td>
+        
+                                    </tr>
+                                {% endfor%}
+                        {% endfor%}
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+    {% block js%}
+        <script>
+            $('.delete').click(function(){
+                let id = $(this).data('id');
+                $.alert('确定要删除该条数据吗?',function(){
+                    $.get('/admin/access/delete',{
+                        id:id
+                    },function(res){
+                       $.message(res.message,{time:1000,type:res.code},function(){
+                           window.location.reload()
+                       })
+                    })
+                })
+            }) 
+                  
+        </script>
+    {% endblock%}

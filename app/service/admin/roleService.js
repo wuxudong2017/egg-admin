@@ -73,6 +73,70 @@ class RoleService extends Service {
         })
         return result
     }
+    // 查询用户角色
+    async getAuth(id){
+        console.log(id)
+    }
+    // 为角色添加权限
+    async addAccess(roleId,res){
+        const t = await this.app.model.transaction();
+        let result = await this.app.model.RoleAccess.findOne({
+            where:{roleId}
+        });
+        console.log(res)
+        if(result){
+            try{
+                await this.app.model.RoleAccess.destroy({
+                    where:{
+                        roleId
+                    }
+                });
+                await this.app.model.RoleAccess.bulkCreate(res,{
+                    ignoreDuplicates : true
+                });
+                await t.commit();
+                return true
+            }catch(e){
+                console.log(e)
+                await t.rollback();
+                return false;
+    
+            }
+        }else{
+            await this.app.model.RoleAccess.bulkCreate(res,{
+                ignoreDuplicates : true
+            });
+        }
+    }
+    async getRoleAccess(id){
+        let result =await this.app.model.RoleAccess.findAll({
+            where:{
+                roleId:id
+            }
+        })
+
+        return result;
+    }
+    //数据处理
+    async dataBase(result,accessList){
+        let json = accessList;
+        let json2 = result;
+        json2.forEach(item => {
+            json['rows'].forEach(itemA => {
+                if(itemA.id === item.accessId){
+                    itemA.checked = true
+                }
+                itemA['accesses'].forEach(itemB =>{
+                    if(itemB.id ===item.accessId ){
+                         itemB.checked = true
+                    }
+                })
+            })
+         })
+         return json
+    }
+
+
 }
 
 module.exports = RoleService;

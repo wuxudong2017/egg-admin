@@ -9,7 +9,7 @@
     <div class="panel-body">
         <div class="row">
             <div class="col-sm-12 col-md-12">
-                <table class="table  table-striped text-center">
+                <table class="table table-bordered table-striped text-center">
                     <thead>
                         <tr>
                             <th>用户名</th>
@@ -28,7 +28,7 @@
                             <td>{{item.mobile}}</td>
                             <td>{{item.email}}</td>
                             <td>{{item.roleName}}</td>
-                            <td>{{item.addTime}}</td>
+                            <td>{{helper.formatDate(item.addTime)}}</td>
                             <td><a href="/admin/manage/edit?id={{item.id}}" class="btn btn-xs btn-primary">编辑</a>
                                 <button data-id="{{item.id}}" class="btn btn-xs btn-danger delete">删除</button>
                             </td>

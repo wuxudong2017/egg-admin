@@ -6,18 +6,26 @@ module.exports = app => {
   const Model = app.model.define('roleAccess', {
     id: {
       type: DataTypes.INTEGER(10),
-      allowNull: false,
+      allowNull: true,
       primaryKey: true,
       field: 'id'
     },
     accessId: {
       type: DataTypes.STRING(255),
-      allowNull: true,
+      allowNull: false,
+      references: {
+        model: 'access',
+        key: 'id'
+      },
       field: 'access_id'
     },
     roleId: {
-      type: DataTypes.STRING(255),
-      allowNull: true,
+      type: DataTypes.INTEGER(10),
+      allowNull: false,
+      references: {
+        model: 'role',
+        key: 'id'
+      },
       field: 'role_id'
     }
   }, {
@@ -25,7 +33,8 @@ module.exports = app => {
   });
 
   Model.associate = function() {
-
+      app.model.RoleAccess.hasOne(app.model.Role,{foreignKey:'id',targetKey:'roleId'})
+      //app.model.RoleAccess.belongsTo(app.model.)
   }
 
   return Model;

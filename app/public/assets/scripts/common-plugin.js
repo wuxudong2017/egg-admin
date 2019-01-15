@@ -69,7 +69,6 @@ $.extend({
             $cancel=$('<button class="btn btn-default btn-md">取消</button>');
             $content = $('<h4>'+content+'</h4>')
             $wrap.append($bg.append($con.append($head.prepend($close)).append($body.append($content).append()).append($foot.append($sure).append($cancel))))
-            
             $('body').append($wrap)
             $sure.bind('click',function(){
                 callback1();
@@ -81,17 +80,23 @@ $.extend({
             $cancel.bind('click',function(){
                 $wrap.remove()
             })
-
     },
     // form 表单数据格式化
- ObjectForm:function(val) {
-    let l = {};
-    var arr = val.split('&');
-    arr.forEach((item) => {
-        let t = item.split('=');
-        l[t[0]] = t[1]
-    })
-    return l;
-}
+    ObjectForm:function(val) {
+        let l = {};
+        var arr = val.split('&');
+        arr.forEach((item) => {
+            let t = item.split('=');
+            l[t[0]] =decodeURIComponent( t[1])
+        })
+        return l;
+    },
+    JsonForm:function(val){
+        var  l ={}
+        for(var i = 0; i< val.length;i++){
+            l[val[i].name] = decodeURIComponent(val[i].value)
+        }
+        return l;
+    }
 })
 
