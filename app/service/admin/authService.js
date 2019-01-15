@@ -4,9 +4,17 @@ const Service = require('egg').Service;
 const Sequelize = require('sequelize');
 class AuthService extends Service {
   async doLogin(username,password) {
+      let model = this.app.model;
     let result = await this.app.model.User.findOne({
+        include:[{
+            model:model.UserRole,
+            attributes:[],
+        }],
         where:{
             username,password
+        },
+        attributes:{
+            include:[[Sequelize.col('userRole.role_id'),'roleId']]
         }
     })
     if(result){
@@ -41,7 +49,7 @@ class AuthService extends Service {
    })
     return result;
   }
-  // 通过username 插叙一个用户
+  // 通过username 查询一个用户
   async getUserByUserName(username,opt){
     let result = await this.app.model.User.findOne({
         where:{
@@ -50,8 +58,6 @@ class AuthService extends Service {
     });
    return result
   }
-  
-
   // 新加用户
   async addOneUser(username,password,mobile,email,roleId){
     let addTime = await this.ctx.service.tools.getTime();
@@ -60,17 +66,24 @@ class AuthService extends Service {
             username
         }
     });
+    const t = await this.app.model.transaction({autoCommit:true});
+    const uuid = await this.ctx.service.tools.uuid()
     if(result === null){
-        await this.app.model.User.create({
-            username,password,mobile,email,roleId,addTime
-        })
-        
-       await this.app.model.UserRole.create({
-           userId:await this.app.model.User.max('id'),
-           roleId,
-       })
-
-       return true;
+        try {
+            await this.app.model.User.create({
+                id:uuid,username,password,mobile,email,roleId,addTime
+            },{transaction:t})
+           await this.app.model.UserRole.create({
+               userId:uuid,
+               roleId,
+           },{transaction:t})
+           await t.commit()
+           return true;
+        }catch(e){
+            console.log(e)
+            await t.rollback()
+            return false
+        }
     }else{
         return false
     }

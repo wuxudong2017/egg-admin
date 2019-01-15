@@ -8,6 +8,7 @@ module.exports = app => {
       type: DataTypes.INTEGER(10),
       allowNull: true,
       primaryKey: true,
+      autoIncrement: true,
       field: 'id'
     },
     title: {

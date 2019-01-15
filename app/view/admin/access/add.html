@@ -45,7 +45,7 @@
                                 <label class="control-label">操作地址</label>
                             </div>
                             <div class="col-sm-6 col-xs-8 ">
-                                <input type="text" class="form-control" value="" name="action"  required autocomplete="off" >
+                                <input type="text" class="form-control" value="" name="url"  required autocomplete="off" >
                             </div>
                         </div>
                     </div>
@@ -109,7 +109,7 @@
                         success: function (res) {
                             $.message(res.message, { type: res.code }, function () {
                                 if (res.code === 1) {
-                                    window.location.reload()
+                                   window.location.reload()
                                 }
                             })
 

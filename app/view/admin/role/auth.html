@@ -3,23 +3,17 @@
 <div class="panel panel-headline">
     <div class="panel-heading">
         <h3 class="panel-title">角色授权</h3>
-        <p class="panel-subtitle"></p>
+        <br/>
+        <p class="panel-subtitle">角色名称--->{{roleMesage.title}}</p>
     </div>
     <div class="panel-body">
         <div class="row">
             <div class="col-sm-12 col-md-12">
-                {{result |dump}}
-                <br>
-                <br>
-                <br>
-                <br>
-                
                 <form id="addAccess" class="form-horizontal">
                     <input type="hidden" name="_csrf" value="{{csrf}}">
                     <input type="hidden" name="roleId" value="{{id}}">
-                    <table class="table table-scripted ">
-    
-                        {% for item in accessList.rows%}
+                    <table class="table table-scripted ">    
+                        {% for item in accessListA %}
                         <tr>
                             <td>
                                 <label class="fancy-checkbox">

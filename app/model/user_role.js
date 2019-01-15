@@ -12,7 +12,7 @@ module.exports = app => {
       field: 'id'
     },
     userId: {
-      type: DataTypes.INTEGER(10),
+      type: DataTypes.STRING(255),
       allowNull: false,
       references: {
         model: 'user',
@@ -34,8 +34,8 @@ module.exports = app => {
   });
 
   Model.associate = function() {
-    app.model.UserRole.hasOne(app.model.User,{foreignKey:"id",targetKey:"userId"})
-    app.model.UserRole.belongsTo(app.model.Role,{foreignKey:"roleId",targetKey:"id"})
+    app.model.UserRole.belongsTo(app.model.Role,{foreignKey:'roleId',targetKey:'id'})
+    app.model.UserRole.hasOne(app.model.User,{foreignKey:'id',targetKey:'userId'})
   }
 
   return Model;

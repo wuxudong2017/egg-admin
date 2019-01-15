@@ -12,15 +12,10 @@ class AccessSeviceService extends Service {
       where:{
         moduleId:'0'
       },
-
-      order:[['addTime','DESC']]
+    
+      order:[['addTime','ASC']]
     });
     return result;
-
-
-    
-    // let result = await this.app.model.Access.findAndCountAll();
-    // return result;
   }
   // 根据传值查询
   async findByVal(val){
@@ -41,9 +36,17 @@ class AccessSeviceService extends Service {
   async addOneAccess(moduleName,actionName,type,moduleId,sort,description,url){
       let id = await this.ctx.service.tools.uuid();
       let addTime = await this.ctx.service.tools.getTime();
-      let val = await this.app.model.Access.findOne({
-        where:{moduleName}
-      });
+      let val ;
+      if(type === 1){
+        val= await this.app.model.Access.findOne({
+          where:{moduleName}
+        });
+      }else{
+        val= await this.app.model.Access.findOne({
+          where:{actionName}
+        });
+      }
+    
       if(!val){
         let result = await this.app.model.Access.create({
           id:id,

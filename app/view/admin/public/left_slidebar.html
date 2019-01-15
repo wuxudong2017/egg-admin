@@ -1,59 +1,42 @@
 <div id="sidebar-nav" class="sidebar">
-
-    {% set list = [
-        {
-            "id": 1,
-            "name": "首页",
-            "url": "/admin",
-            "icon": "lnr-home"
-        },
-        {
-            "id": 2,
-            "name": "用户管理",
-            "icon": "lnr-user",
-            "children": [
-                {
-                    "name": "用户列表",
-                    "url": "/admin/manage"
-                },  {
-                    "name": "新增用户",
-                    "url": "/admin/manage/add"
-                }
-            ]
-        },
-         {
-            "id": 3,
-            "name": "角色管理",
-            "icon": "lnr-select",
-            "children": [
-                {
-                    "name": "角色列表",
-                    "url": "/admin/role"
-                },
-                {
-                    "name": "新增角色",
-                    "url": "/admin/role/add"
-                }
-            ]
-        },
-        {
-            "id": 4,
-            "name": "权限管理",
-            "icon": "lnr-select",
-            "children": [
-                {
-                    "name": "权限列表",
-                    "url": "/admin/access"
-                },
-                {
-                    "name": "新增权限",
-                    "url": "/admin/access/add"
-                }
-            ]
-        }
-    ]%}
-
     <div class="sidebar-scroll">
+        <nav>
+            <ul class="nav">
+                {% for item in asideList %}
+                    {% if (isSuper|int  ==1) or item.checked  %}
+                    {% if item.accesses.length < 1 %}
+                        {% if item.url===pathName%} <li><a href="{{item.url}}" class="active"><i class="lnr "></i> <span>{{item.moduleName}}</span></a></li>
+                        {% else%}
+                        <li><a href="{{item.url}}" class=""><i class="lnr "></i> <span>{{item.moduleName}}</span></a></li>
+                        {%endif%}
+                    {% else %}
+                    <li>
+                        <a href="#subPages{{item.id}}" data-toggle="collapse" class=""><i class="lnr"></i>
+                            <span>{{item.moduleName}}</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                        <div id="subPages{{item.id}}" class="collapse in">
+                            <ul class="nav">
+                                {% for b in item.accesses %}
+                                {% if (b.type == 2 and  b.checked)%}
+                                {% if b.url==pathName%}
+                                <li><a href="{{b.url}}" class="active">{{b.moduleName}}</a></li>
+                                {% else%}
+                                <li><a href="{{b.url}}" class="">{{b.moduleName}}</a></li>
+                                {%endif%}
+                                {%endif%}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </li>
+                    {% endif%}
+                {% endif%}
+                    {% endfor%}
+            </ul>
+        </nav>
+    </div>
+</div>
+<!-- 
+    
+ <div class="sidebar-scroll">
         <nav>
             <ul class="nav">
                 {% for item in list%}
@@ -86,3 +69,6 @@
         </nav>
     </div>
 </div>
+
+
+ -->

@@ -23,6 +23,10 @@ class ToolsService extends Service {
     let d = new Date();
     return d.getTime()
   }
+  // uuid 生成id
+  async uuid(){
+    return uuid()
+  }
 
   async uuid(){
     return uuid()
