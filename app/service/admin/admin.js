@@ -31,8 +31,8 @@ class AdminService extends Service {
     if(ignoreUrl.indexOf(pathName) > -1|| userInfo.isSuper ==1){
         return true
     }
-    //console.log(`result---------->${accessArr.indexOf(accessUrlResult[0].id) > -1}`)
-    if(accessUrlResult){
+    console.log(`result---------->${accessUrlResult}`)
+    if(accessUrlResult[0]){
         if(accessArr.indexOf(accessUrlResult[0].id) > -1){
             return true
         }

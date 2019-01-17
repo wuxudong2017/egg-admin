@@ -38,7 +38,7 @@ module.exports = app => {
     addTime: {
       type: DataTypes.BIGINT,
       allowNull: true,
-      field: 'add_time'
+      field: 'add_time',
     },
     isSuper: {
       type: DataTypes.STRING(255),

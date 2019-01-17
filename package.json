@@ -4,6 +4,7 @@
   "description": "",
   "private": true,
   "dependencies": {
+    "await-stream-ready": "^1.0.1",
     "egg": "^2.2.1",
     "egg-scripts": "^2.5.0",
     "egg-sequelize": "^4.2.0",
@@ -12,6 +13,7 @@
     "md5": "^2.2.1",
     "mysql2": "^1.6.4",
     "silly-datetime": "^0.1.2",
+    "stream-wormhole": "^1.1.0",
     "svg-captcha": "^1.3.12",
     "uuid": "^3.3.2"
   },

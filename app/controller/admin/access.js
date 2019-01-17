@@ -66,8 +66,7 @@ class AccessController extends Controller {
     moduleId= decodeURIComponent(formdata.moduleId),
     sort= decodeURIComponent(formdata.sort),
     description= decodeURIComponent(formdata.description);
-    let result = await this.ctx.service.admin.accessSevice.updateOneById(id,type,actionName,url,moduleId,sort,description);
-    console.log(result)
+    let result = await this.ctx.service.admin.accessSevice.updateOneById(id,moduleName,type,actionName,url,moduleId,sort,description);
     if(result){
       this.ctx.body = {
         code:1,
@@ -86,7 +85,6 @@ class AccessController extends Controller {
   async delete(){
     let id = this.ctx.request.query.id;
     let result = await this.ctx.service.admin.accessSevice.deleteOne(id);
-    console.log(result)
     if(Number(result) ===1){
       this.ctx.body = {
         code:1,

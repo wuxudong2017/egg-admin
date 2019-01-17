@@ -6,7 +6,6 @@ class ManageController extends BaseController {
   async index() {
     let offset = this.ctx.request.query.page?Number(this.ctx.request.query.page) : 1;
     let result = await this.ctx.service.admin.authService.getUserList(offset);
-    console.log(JSON.stringify(result))
     await this.ctx.render('/admin/manage/index',{
       result
     })
@@ -78,7 +77,6 @@ class ManageController extends BaseController {
   async delete(){
     let query = this.ctx.request.query;
     let id = '';
-    console.log(query)
     if(query.id !='undefined'){
       id = query.id
     }else{

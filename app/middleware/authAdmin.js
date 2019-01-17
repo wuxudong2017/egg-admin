@@ -11,7 +11,7 @@ module.exports = (options,app)=>{
                 //console.log(`hasAuth----->${hasAuth}`)
                 if(hasAuth){
                     ctx.state.asideList = accessListA
-                    console.log(`asideList---------->${JSON.stringify(accessListA)}`)
+                    // console.log(`asideList---------->${JSON.stringify(accessListA)}`)
                     ctx.state.isSuper = isSuper
                     if(pathName.indexOf('/login')>-1){
                         await ctx.redirect('/admin')
@@ -21,7 +21,11 @@ module.exports = (options,app)=>{
                     }
                    
                 }else{
-                    ctx.body = "你没有权限操作"
+                    ctx.body ={
+                        code:0,
+                        message: "你没有权限操作",
+                        data:null
+                    }
                   //await next()
                 }
 

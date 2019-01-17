@@ -1,5 +1,11 @@
 'use strict';
-
+const fs = require('fs');
+const path = require('path');
+const md5 = require('md5');
+//故名思意 异步二进制 写入流
+const awaitWriteStream = require('await-stream-ready').write;
+//管道读入一个虫洞。
+const sendToWormhole = require('stream-wormhole');
 const Controller = require('egg').Controller;
 
 class HomeController extends Controller {
@@ -17,6 +23,30 @@ class HomeController extends Controller {
     let d =new Date();
     return d.getTime()
   }
+  // 文件上传服务
+  async upload(){
+      let ctx = this.ctx;
+      // 文件上传 操作文件流
+      const stream = await ctx.getFileStream(); 
+      console.log(stream)
+      // 新建一个文件名 ,使用md5 加密
+      const filename = md5(stream.filename)+path.extname(stream.filename).toLocaleLowerCase();
+      // 生成绝对文件路径,存储
+      const target = path.join(this.app.config.baseDir, 'app/public/uploads', filename);
+      // 生成一个文件,写入文件流
+      const writeStream = fs.createWriteStream(target);
+      try {
+          await awaitWriteStream(stream.pipe(writeStream))
+   
+      } catch (error) {
+          await sendToWormhole(stream);
+          throw error;
+      }
+        //文件响应
+          ctx.body = {
+              link: '/public/uploads/' + filename
+          };
+    }
 }
 
 module.exports = HomeController;

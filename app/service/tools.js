@@ -28,12 +28,6 @@ class ToolsService extends Service {
     return uuid()
   }
 
-  async uuid(){
-    return uuid()
-  }
-  
-
-
 }
 
 module.exports = ToolsService;

@@ -7,6 +7,7 @@ module.exports = app => {
   const { router, controller } = app;
   // 公共工具
   router.get('/admin/captcha', controller.admin.base.captcha)
+  router.post('/file/upload',controller.admin.base.upload)
 
   router.get('/', controller.home.index);
   // 后台模块
@@ -37,6 +38,12 @@ module.exports = app => {
   router.get('/admin/access/edit', controller.admin.access.edit)
   router.post('/admin/access/edit', controller.admin.access.doEdit)
   router.get('/admin/access/delete', controller.admin.access.delete)
+  // 内容发布
+  router.get('/admin/article',controller.admin.article.index)
+  router.get('/admin/article/add',controller.admin.article.add)
+  router.post('/admin/article/add',controller.admin.article.doAdd)
+
+
   //api
 
 

@@ -13,7 +13,7 @@ class AccessSeviceService extends Service {
         moduleId:'0'
       },
     
-      order:[['addTime','ASC']]
+      order:[['sort','ASC']]
     });
     return result;
   }
@@ -59,7 +59,7 @@ class AccessSeviceService extends Service {
       }
   }
   // 编辑一个权限
-  async updateOneById(id,type,actionName,url,moduleId,sort,description){
+  async updateOneById(id,moduleName,type,actionName,url,moduleId,sort,description){
     const t = await this.app.model.transaction();
     try{
         await this.app.model.Access.findOne({
@@ -67,7 +67,7 @@ class AccessSeviceService extends Service {
             id
           }
         },{transaction:t});
-        await this.app.model.Access.update({type,actionName,url,moduleId,sort,description},{
+        await this.app.model.Access.update({moduleName,type,actionName,url,moduleId,sort,description},{
           where:{id}
         },{transaction:t})
       await  t.commit();

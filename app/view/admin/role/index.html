@@ -55,7 +55,7 @@
         var id = $(this).data('id')
         $.alert("确定要删除吗?",function(){
             $.get('/admin/role/delete',{id:id},function(res){
-                $.message(res.message,{icon:res.code,time:1000},function(){
+                $.message(res.message,{type:res.code,time:1000},function(){
                     window.location.reload()
                 })
             })

@@ -125,7 +125,6 @@ class AuthService extends Service {
   }
   // 更新一个用户的信息 
   async updateOneUser(id,username,password,mobile,email,roleId){
-      console.log(`roleId====>${roleId}`)
       let result = await this.app.model.User.update({
         username,password,mobile,email,roleId,
       },{
