@@ -46,7 +46,6 @@ module.exports = appInfo => {
   // mysql
   config.sequelize = sequelize
   // session 配置
-
   config.session = {
     key: 'EGG_SESSION',
     maxAge: 30 * 60 * 1000,
@@ -54,6 +53,9 @@ module.exports = appInfo => {
     renew: true,
     entrypt: true
   }
+  // 文件上传配置
+  config.uploadDir = 'app/public/uploads'
+
 
   return config;
 };

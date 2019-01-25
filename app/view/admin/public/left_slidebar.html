@@ -3,12 +3,12 @@
         <nav>
             <ul class="nav">
                 {% for item in asideList %}
-                    {% if (isSuper|int  ==1) or item.checked  %}
-                    {% if item.accesses.length < 1 %}
-                        {% if item.url===pathName%} <li><a href="{{item.url}}" class="active"><i class="lnr "></i> <span>{{item.moduleName}}</span></a></li>
-                        {% else%}
-                        <li><a href="{{item.url}}" class=""><i class="lnr "></i> <span>{{item.moduleName}}</span></a></li>
-                        {%endif%}
+                {% if (isSuper|int ==1) or item.checked %}
+                {% if item.accesses.length < 1 %} {% if item.url===pathName%} <li><a href="{{item.url}}" class="active"><i
+                            class="lnr "></i> <span>{{item.moduleName}}</span></a></li>
+                    {% else%}
+                    <li><a href="{{item.url}}" class=""><i class="lnr "></i> <span>{{item.moduleName}}</span></a></li>
+                    {%endif%}
                     {% else %}
                     <li>
                         <a href="#subPages{{item.id}}" data-toggle="collapse" class=""><i class="lnr"></i>
@@ -16,7 +16,7 @@
                         <div id="subPages{{item.id}}" class="collapse in">
                             <ul class="nav">
                                 {% for b in item.accesses %}
-                                {% if (b.type == 2 and  b.checked)%}
+                                {% if (b.type == 2 and (b.checked or (isSuper|int ==1) )) %}
                                 {% if b.url==pathName%}
                                 <li><a href="{{b.url}}" class="active">{{b.actionName}}</a></li>
                                 {% else%}
@@ -28,7 +28,7 @@
                         </div>
                     </li>
                     {% endif%}
-                {% endif%}
+                    {% endif%}
                     {% endfor%}
             </ul>
         </nav>

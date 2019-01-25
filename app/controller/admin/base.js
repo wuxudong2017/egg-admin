@@ -2,6 +2,8 @@
 const fs = require('fs');
 const path = require('path');
 const md5 = require('md5');
+const sd = require('silly-datetime');
+const mkDirp = require('mz-modules/mkdirp')
 //故名思意 异步二进制 写入流
 const awaitWriteStream = require('await-stream-ready').write;
 //管道读入一个虫洞。
@@ -30,9 +32,12 @@ class HomeController extends Controller {
       const stream = await ctx.getFileStream(); 
       console.log(stream)
       // 新建一个文件名 ,使用md5 加密
-      const filename = md5(stream.filename)+path.extname(stream.filename).toLocaleLowerCase();
+      const filename = md5(stream.filename+stream.length)+path.extname(stream.filename).toLocaleLowerCase();
       // 生成绝对文件路径,存储
-      const target = path.join(this.app.config.baseDir, 'app/public/uploads', filename);
+      let day = sd.format(new Date(),'YYYYMMDD')
+      await mkDirp(path.join(this.app.config.uploadDir,day))
+      const target = path.join(this.app.config.uploadDir,day,filename);
+      console.log(target)
       // 生成一个文件,写入文件流
       const writeStream = fs.createWriteStream(target);
       try {
@@ -44,7 +49,7 @@ class HomeController extends Controller {
       }
         //文件响应
           ctx.body = {
-              link: '/public/uploads/' + filename
+              link: target.slice(3).replace(/\\/g,'/')
           };
     }
 }

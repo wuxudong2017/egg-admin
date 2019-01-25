@@ -8,6 +8,8 @@ module.exports = app => {
   // 公共工具
   router.get('/admin/captcha', controller.admin.base.captcha)
   router.post('/file/upload',controller.admin.base.upload)
+  router.get('/test',controller.home.test)
+
 
   router.get('/', controller.home.index);
   // 后台模块
@@ -38,6 +40,14 @@ module.exports = app => {
   router.get('/admin/access/edit', controller.admin.access.edit)
   router.post('/admin/access/edit', controller.admin.access.doEdit)
   router.get('/admin/access/delete', controller.admin.access.delete)
+  // 轮播图管理
+  router.get('/admin/banner',controller.admin.banner.index)
+  router.get('/admin/banner/add',controller.admin.banner.add)
+  router.post('/admin/banner/add',controller.admin.banner.doAdd)
+  router.get('/admin/banner/edit', controller.admin.banner.edit)
+  router.post('/admin/banner/edit', controller.admin.banner.doEdit)
+  router.get('/admin/banner/delete', controller.admin.banner.delete)
+
   // 内容发布
   router.get('/admin/article',controller.admin.article.index)
   router.get('/admin/article/add',controller.admin.article.add)
@@ -45,7 +55,6 @@ module.exports = app => {
 
 
   //api
-
 
 
 };
