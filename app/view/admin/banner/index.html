@@ -6,7 +6,6 @@
         <h3 class="panel-title">轮播图列表</h3>
         <p class="panel-subtitle"></p>
     </div>
-    {{result | dump}}
     <div class="panel-body">
         <div class="row">
             <div class="col-sm-12 col-md-12">
@@ -18,6 +17,7 @@
                             <th>图片</th>
                             <th>跳转地址</th>
                             <th>状态</th>
+                            <th>添加时间</th>
                             <th>操作</th>
                         </tr>
                     </thead>
@@ -29,58 +29,54 @@
                             <td>
                                 {% if (item.type ==1 )%}
                                 网站
-                                {% elseif  (item.type ==2 )%}
+                                {% elseif (item.type ==2 )%}
                                 小程序
-                                {% elseif  (item.type ==3 )%}
+                                {% elseif (item.type ==3 )%}
                                 app
                                 {% else %}
-                                    未知
+                                未知
                                 {% endif %}
-
                             </td>
                             <td>
-                                <img src="{{item.focusImg}}" style="width:100px;height:100px" alt="">
-
+                                <img src="{{item.focusImg}}" style="width:100px;height:54px" alt="">
                             </td>
                             <td>{{item.link}}</td>
                             <td>
-                                    {%  if  (item.status ==1 )%}
-                                    正常
-                                    {% else %}
-                                        禁用
-                                    {% endif %}
-
-
+                                {% if (item.status ==1 )%}
+                                <span class="">正常</span>
+                                {% else %}
+                                <span class="">禁用</span>
+                                {% endif %}
                             </td>
                             <td>{{helper.formatDate(item.addTime)}}</td>
-                            <td><a href="/admin/article/edit?id={{item.id}}" class="btn btn-xs btn-primary">编辑</a>
+                            <td><a href="/admin/banner/edit?id={{item.id}}" class="btn btn-xs btn-primary">编辑</a>
                                 <button data-id="{{item.id}}" class="btn btn-xs btn-danger delete">删除</button>
                             </td>
                         </tr>
                         {% endfor%}
                     </tbody>
                 </table>
-               {% include '../public/pager.html'%}
+                {% include '../public/pager.html'%}
             </div>
         </div>
     </div>
     {% endblock %}
-  
+
     {% block js%}
-        <script>
-            $('.delete').click(function(){
-                let id = $(this).data('id');
-                console.log(id);
-                $.alert('确定要删除该条数据吗?',function(){
-                    $.get('/admin/article/delete',{
-                        id:id
-                    },function(res){
-                       $.message(res.message,{time:1000,type:res.code},function(){
-                           window.location.reload()
-                       })
+    <script>
+        $('.delete').click(function () {
+            let id = $(this).data('id');
+            console.log(id);
+            $.alert('确定要删除该条数据吗?', function () {
+                $.get('/admin/article/delete', {
+                    id: id
+                }, function (res) {
+                    $.message(res.message, { time: 1000, type: res.code }, function () {
+                        window.location.reload()
                     })
                 })
-            }) 
-                  
-        </script>
+            })
+        })
+
+    </script>
     {% endblock%}

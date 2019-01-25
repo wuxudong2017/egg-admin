@@ -17,41 +17,6 @@ class BannerController extends Controller {
   async add(){
     await this.ctx.render('/admin/banner/add')
   }
-  // async doAdd(){
-  //     // try{
-  //       let formData = this.ctx.request.body;
-  //       console.log(formData)
-  //       let id = await this.ctx.service.tools.uuid();
-  //     // 获取文档流
-  //     let parts =this.ctx.multipart({ autoFields: true });
-  //     let stream;
-  //     while((stream = await parts())!= null){
-  //       // if(!stream.filename){
-  //       //   break;
-  //       // }
-  //       let md5s = md5(stream.filename+stream.length)
-  //       // 上传文件目录
-  //       let dir = path.join(this.app.config.uploadDir+'/banner',md5s+path.extname(stream.filename));
-  //       console.log(stream)
-  //       let saveDir = dir.slice(3).replace(/\\/g, '/');
-  //       let writeStream  = fs.createWriteStream(dir);
-  //       await pump(stream,writeStream);
-  //     }
-  //     // this.ctx.body = {
-  //     //   code:1,
-  //     //   message:'添加轮播图成功',
-  //     //   data:null
-  //     // }
-  //     // }catch(e){
-  //     //   this.ctx.body = {
-  //     //     code:0,
-  //     //     message:'添加轮播图失败',
-  //     //     data:null
-  //     //   }
-  //     // }
-
-
-  // }
   async doAdd(){
     try{
       let id = await this.ctx.service.tools.uuid();
@@ -87,7 +52,7 @@ class BannerController extends Controller {
     }
 }
   async edit(){
-
+    await this.ctx.render('/admin/banner/edit')
   }
   async doEdit(){
 
