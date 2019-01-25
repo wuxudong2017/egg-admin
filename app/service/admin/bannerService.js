@@ -18,6 +18,22 @@ class BannerServiceService extends Service {
       });
       return result;
   }
+  // 根据id 查询数据
+  async getOneById(id){
+    let  result = await this.app.model.Focus.findOne({
+      where:{
+        id
+      }
+    })
+    return result;
+  }
+  // 根据id 更新 数据
+  async updateOne(id,formData){
+    return await this.app.model.Focus.update({
+      id
+    },formData)
+  }
+
 
 }
 

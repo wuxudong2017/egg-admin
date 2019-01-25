@@ -5,21 +5,22 @@
         <h3 class="panel-title">编辑轮播图</h3>
         <p class="panel-subtitle"></p>
     </div>
+    {{result|dump}}
     <div class="panel-body">
         <div class="row">
             <div class="col-sm-12 col-md-12">
                 <form class="form form-horizontal"
                     id="addUser">
-
+                    <input type="hidden" name="id" value="{{result.id}}">
                     <div class="form-group">
                         <div class="col-sm-3 text-right col-xs-4">
                             <label class="control-label">分类</label>
                         </div>
                         <div class="col-sm-6 col-xs-8 ">
                             <select name="type" id="typeId" class="form-control">
-                                <option value="1">网站</option>
-                                <option value="2">小程序</option>
-                                <option value="3">app</option>
+                                <option value="1" {{ "selected" if (result.type ==1) else ""  }} >网站</option>
+                                <option value="2" {{ "selected" if (result.type ==2) else ""  }}>小程序</option>
+                                <option value="3" {{ "selected" if (result.type ==3) else ""  }}>app</option>
                             </select>
                         </div>
                     </div>
@@ -28,7 +29,7 @@
                             <label class="control-label">名称</label>
                         </div>
                         <div class="col-sm-6 col-xs-8 ">
-                            <input type="text" required name="title" autocomplete="off" class="form-control">
+                            <input type="text" required name="title" autocomplete="off" class="form-control" value="{{result.title}}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -36,7 +37,7 @@
                             <label class="control-label">跳转地址</label>
                         </div>
                         <div class="col-sm-6 col-xs-8 ">
-                            <input type="text" required name="link" autocomplete="off" class="form-control">
+                            <input type="text" required name="link" value="{{result.link}}" autocomplete="off" class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
@@ -44,7 +45,10 @@
                             <label class="control-label">轮播图</label>
                         </div>
                         <div class="col-sm-6 col-xs-8 ">
-                            <input type="file" required id="upload_file" name="focusImg" autocomplete="off" class="form-control">
+                            <input type="file"  id="upload_file" name="focusImg" autocomplete="off" class="form-control">
+                            <img src="{{result.focusImg}}" style="width:160px;height:90px" alt="">
+
+
                         </div>
                     </div>
                     <div class="form-group">
@@ -52,7 +56,7 @@
                             <label class="control-label">排序</label>
                         </div>
                         <div class="col-sm-6 col-xs-8 ">
-                            <input type="text" name="sort" autocomplete="off" class="form-control">
+                            <input type="text" name="sort" value="{{result.sort}}" autocomplete="off" class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
@@ -61,11 +65,11 @@
                         </div>
                         <div class="col-sm-6 col-xs-8 ">
                             <label class="fancy-radio  control-label">
-                                <input name="status" value="1" type="radio" checked>
+                                <input name="status" value="1" type="radio"  {{ "checked" if (result.status == 1) else ""  }}>
                                 <span><i></i>使用</span>
                             </label>
                             <label class="fancy-radio  control-label">
-                                <input name="status" value="0" type="radio">
+                                <input name="status" value="0" type="radio"  {{ "checked" if (result.status == 0) else ""  }}>
                                 <span><i></i>禁用</span>
                             </label>
                         </div>
@@ -102,7 +106,7 @@
                     }
                     //console.log(fd)
                     $.ajax({
-                        url: "/admin/banner/add?_csrf={{csrf}}",
+                        url: "/admin/banner/edit?_csrf={{csrf}}",
                         type: "post",
                         // Form数据
                         data: fd,
@@ -111,7 +115,7 @@
                         processData: false,
                         success: function (res) {
                             $.message(res.message, { time: 1000, type: res.code }, function () {
-                                window.location.reload()
+                              //  window.location.reload()
                             })
                         }
                     });

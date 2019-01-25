@@ -52,9 +52,51 @@ class BannerController extends Controller {
     }
 }
   async edit(){
-    await this.ctx.render('/admin/banner/edit')
+    let id = String(this.ctx.request.query.id)
+    let result = await this.ctx.service.admin.bannerService.getOneById(id)
+    await this.ctx.render('/admin/banner/edit',{
+      result
+    })
   }
   async doEdit(){
+   // try{
+    // 获取文档流
+    let stream =await this.ctx.getFileStream();
+    let formData = stream.fields;
+    console.log(`formData----->${formData}`)
+    let id =formData.id;
+    let md5s = md5(stream.filename+stream.length)
+    // 上传文件目录
+    let dir = path.join(this.app.config.uploadDir+'/banner',md5s+''+path.extname(stream.filename).toLowerCase());
+    let saveDir = dir.slice(3).replace(/\\/g, '/');
+    let writeStream  = fs.createWriteStream(dir);
+    await pump(stream,writeStream);
+    formData.id = id;
+    if(saveDir){
+      formData.focusImg = saveDir;
+    }else{
+      delete formData[focusImg]
+    }
+    
+    formData.type = Number(formData.type)
+    formData.status = Number(formData.status)
+    formData.sort = Number(formData.sort)
+    formData.addTime = await this.ctx.service.tools.getTime()
+    let result = await this.ctx.service.admin.bannerService.updateOne(id,formData);
+    this.ctx.body = {
+      code:1,
+      message:'编辑轮播图成功',
+      data:null
+    }
+    // }catch(e){
+    //   this.ctx.body = {
+    //     code:0,
+    //     message:'编辑轮播图失败',
+    //     data:null
+    //   }
+    // }
+
+
 
   }
   async delete(){
