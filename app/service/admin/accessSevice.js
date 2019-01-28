@@ -8,11 +8,11 @@ class AccessSeviceService extends Service {
     let result = await this.app.model.Access.findAndCountAll({
       include:{
         model:this.app.model.Access,
+        order:[['sort','ASC']]
       },
       where:{
         moduleId:'0'
       },
-    
       order:[['sort','ASC']]
     });
     return result;

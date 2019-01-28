@@ -29,9 +29,18 @@ class BannerServiceService extends Service {
   }
   // 根据id 更新 数据
   async updateOne(id,formData){
-    return await this.app.model.Focus.update({
-      id
-    },formData)
+    return await this.app.model.Focus.update(formData,{
+      where:{
+        id
+      }
+    })
+  }
+  async deleteById(id){
+    return await this.app.model.Focus.destroy({
+      where:{
+        id
+      }
+    })
   }
 
 
