@@ -55,7 +55,10 @@ module.exports = appInfo => {
   }
   // 文件上传配置
   config.uploadDir = 'app/public/uploads'
-
+  // 文件流上传配置
+  config.multipart= {
+    autoFields:true
+  }
 
   return config;
 };
