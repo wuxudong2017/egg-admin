@@ -2,7 +2,7 @@
 {% block content%}
 <div class="panel panel-headline">
     <div class="panel-heading">
-        <h3 class="panel-title">编辑权限</h3>
+        <h3 class="panel-title">新增权限</h3>
         <p class="panel-subtitle"></p>
     </div>
     <div class="panel-body">
@@ -10,13 +10,12 @@
             <div class="col-sm-12 col-md-12">
                 <form class="form form-horizontal" id="addUser">
                     <input type="hidden" name="_csrf" value="{{csrf}}">
-                    <input type="hidden" name="id" value="{{result.id}}">
                     <div class="form-group">
                         <div class="col-sm-3 text-right col-xs-4">
                             <label class="control-label">模块名称</label>
                         </div>
                         <div class="col-sm-6 col-xs-8 ">
-                            <input type="text" name="moduleName" class="form-control" required autocomplete="off" value="{{result.moduleName}}">
+                            <input type="text" name="moduleName" class="form-control" required autocomplete="off" value="">
                         </div>
                     </div>
                     <div class="form-group">
@@ -25,9 +24,9 @@
                         </div>
                         <div class="col-sm-6 col-xs-8 ">
                             <select name="type" id="typeId" class="form-control">
-                                <option value="1" {{'selected' if result.type == 1 else null}}>模块</option>
-                                <option value="2" {{'selected' if result.type == 2 else null}}>菜单</option>
-                                <option value="3" {{'selected' if result.type == 3 else null}}>操作</option>
+                                <option value="1">模块</option>
+                                <option value="2">菜单</option>
+                                <option value="3">操作</option>
                             </select>
                         </div>
                     </div>
@@ -38,7 +37,7 @@
                             </div>
                             <div class="col-sm-6 col-xs-8 ">
                                 <input type="text" name="actionName" class="form-control" required autocomplete="off"
-                                    value="{{result.actionName}}">
+                                    value="">
                             </div>
                         </div>
                         <div class="form-group">
@@ -46,7 +45,7 @@
                                 <label class="control-label">操作地址</label>
                             </div>
                             <div class="col-sm-6 col-xs-8 ">
-                                <input type="text" class="form-control" required autocomplete="off" name="url" value="{{result.url}}">
+                                <input type="text" class="form-control" value="" name="url"  required autocomplete="off" >
                             </div>
                         </div>
                     </div>
@@ -56,12 +55,10 @@
                         </div>
                         <div class="col-sm-6 col-xs-8 ">
                             <select name="moduleId" id="" class="form-control">
-                                <option value="0" {{'selected' if result.moduleId == 0 else null}}>顶级模块</option>
+                                <option value="0">顶级模块</option>
                                 {% for item in moduleList%}
-                                <option value="{{item.id}}" {{'selected' if result.moduleId == item.id else null}}>{{item.moduleName}}</option>
+                                <option value="{{item.id}}">{{item.moduleName}}</option>
                                 {% endfor%}
-                                <!-- <option value="1">菜单</option>
-                                <option value="2">父亲模块</option> -->
                             </select>
                         </div>
                     </div>
@@ -70,7 +67,7 @@
                             <label class="control-label">排序</label>
                         </div>
                         <div class="col-sm-6 col-xs-8 ">
-                            <input type="text" name="sort" class="form-control" value="{{result.sort}}">
+                            <input type="text" name="sort" class="form-control" value="10">
                         </div>
                     </div>
                     <div class="form-group">
@@ -78,7 +75,7 @@
                             <label class="control-label">描述</label>
                         </div>
                         <div class="col-sm-6 col-xs-8 ">
-                            <textarea type="text" name="description" class="form-control" style="resize: none">{{result.description}}</textarea>
+                            <textarea type="text" name="description" class="form-control" style="resize: none"></textarea>
                         </div>
                     </div>
                     <div class="form-group text-center">
@@ -94,6 +91,7 @@
     <script src="/public/assets/vendor/jquery-validate/jquery.validate.js"></script>
     <script src="/public/assets/vendor/jquery-validate/messages_zh.js"></script>
     <script>
+        // /admin/login
         $(function () {
             $("#addUser").validate({
                 rules: {
@@ -103,26 +101,22 @@
 
                 },
                 submitHandler: function (form) {
+
                     $.ajax({
                         method: 'POST',
-                        url: '/admin/access/edit',
-                        headers: { 'Content-Type': 'application/json' },
-                        data: JSON.stringify($.JsonForm($(form).serializeArray())),
+                        url: '/admin/access/add',
+                        data: $.ObjectForm($(form).serialize()),
                         success: function (res) {
                             $.message(res.message, { type: res.code }, function () {
                                 if (res.code === 1) {
-                                    window.location.reload()
+                                   window.location.reload()
                                 }
                             })
+
                         }
                     })
                 }
             });
-            if (Number($("#typeId").val()) === 1) {
-                $('.other').hide();
-            } else {
-                $('.other').show();
-            }
             // 模块选择操作
             $("#typeId").on('change', function (ev) {
                 let val = this.options[this.selectedIndex].value;
@@ -132,6 +126,10 @@
                     $('.other').show()
                 }
             })
+
+
         })
+
     </script>
+
     {% endblock%}

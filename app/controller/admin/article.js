@@ -14,6 +14,17 @@ class ArticleController extends Controller {
       let formData = this.ctx.request.body;
       console.log(formData)
   }
+  // 编辑网站单页面应用
+  async editPage(){
+    let id = this.ctx.params.id;
+    let result = await this.ctx.service.admin.navService.getOne({id});
+    await this.ctx.render('/admin/article/editPage',{
+      result
+    })
+    console.log(id)
+  }
+
+
 }
 
 module.exports = ArticleController;

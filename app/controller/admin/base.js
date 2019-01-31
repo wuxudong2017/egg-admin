@@ -2,6 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const md5 = require('md5');
+const pump = require('mz-modules/pump');
 const sd = require('silly-datetime');
 const mkDirp = require('mz-modules/mkdirp')
 //故名思意 异步二进制 写入流
@@ -52,6 +53,25 @@ class HomeController extends Controller {
               link: target.slice(3).replace(/\\/g,'/')
           };
     }
+    // 轮播图上传服务
+    async uploadBanner(){
+       // 获取文档流
+        let stream =await this.ctx.getFileStream()
+        let md5s = md5(stream.filename+stream.length)
+        // 上传文件目录
+        let dir = path.join(this.app.config.uploadDir+'/banner',md5s+''+path.extname(stream.filename).toLowerCase());
+        let saveDir = dir.slice(3).replace(/\\/g, '/');
+        let writeStream  = fs.createWriteStream(dir);
+        await pump(stream,writeStream);
+        this.ctx.body = {
+          code:1,
+          message:'上传图片成功',
+          saveDir:saveDir
+        }
+        return saveDir
+    }
+
+
 }
 
 module.exports = HomeController;

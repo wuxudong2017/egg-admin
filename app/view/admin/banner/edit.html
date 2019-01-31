@@ -5,11 +5,13 @@
         <h3 class="panel-title">编辑轮播图</h3>
         <p class="panel-subtitle"></p>
     </div>
-    {{result|dump}}
     <div class="panel-body">
         <div class="row">
             <div class="col-sm-12 col-md-12">
+<<<<<<< HEAD
                     <!-- action="/admin/banner/edit?_csrf={{csrf}}" method="POST" enctype="multipart/form-data" -->
+=======
+>>>>>>> 5a05ccb4229bcf15d6d93a8ee18867ba3a258b6a
                 <form class="form form-horizontal" id="addUser">
                     <input type="hidden" name="id" value="{{result.id}}">
                     <div class="form-group">
@@ -18,7 +20,7 @@
                         </div>
                         <div class="col-sm-6 col-xs-8 ">
                             <select name="type" id="typeId" class="form-control">
-                                <option value="1" {{ "selected" if (result.type ==1) else ""  }} >网站</option>
+                                <option value="1" {{ "selected" if (result.type ==1) else ""  }}>网站</option>
                                 <option value="2" {{ "selected" if (result.type ==2) else ""  }}>小程序</option>
                                 <option value="3" {{ "selected" if (result.type ==3) else ""  }}>app</option>
                             </select>
@@ -45,9 +47,15 @@
                             <label class="control-label">轮播图</label>
                         </div>
                         <div class="col-sm-6 col-xs-8 ">
+<<<<<<< HEAD
                             <input type="file"  id="upload_file"  name="focusImg" autocomplete="off" class="form-control">
                             <img src="{{result.focusImg}}" style="width:160px;height:90px" alt="">
 
+=======
+                            <input type="file" id="upload_file" name="file" autocomplete="off" class="form-control">
+                            <img id="showImg" src="{{result.focusImg}}" style="width:160px;height:90px" alt="">
+                            <input type="hidden" name="focusImg" id="fileUrl">
+>>>>>>> 5a05ccb4229bcf15d6d93a8ee18867ba3a258b6a
 
                         </div>
                     </div>
@@ -65,11 +73,13 @@
                         </div>
                         <div class="col-sm-6 col-xs-8 ">
                             <label class="fancy-radio  control-label">
-                                <input name="status" value="1" type="radio"  {{ "checked" if (result.status == 1) else ""  }}>
+                                <input name="status" value="1" type="radio"
+                                    {{ "checked" if (result.status == 1) else ""  }}>
                                 <span><i></i>使用</span>
                             </label>
                             <label class="fancy-radio  control-label">
-                                <input name="status" value="0" type="radio"  {{ "checked" if (result.status == 0) else ""  }}>
+                                <input name="status" value="0" type="radio"
+                                    {{ "checked" if (result.status == 0) else ""  }}>
                                 <span><i></i>禁用</span>
                             </label>
                         </div>
@@ -89,9 +99,30 @@
     <script>
         // /admin/login
         $(function () {
+<<<<<<< HEAD
             //文件上传
             $('#upload_file').on('change',function(ev){
                 console.log(this.files[0])
+=======
+            $('#upload_file').on('change', function (ev) {
+                var pic = $(this)[0].files[0]
+                var fd = new FormData();
+                fd.append('focusImg', pic);
+                $.ajax({
+                    type: 'post',
+                    url: '/file/uploadBanner',
+                    data: fd,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (res) {
+                        $.message(res.message, { time: 1000, type: res.code });
+                        $('#fileUrl').val(res.saveDir);
+                        $('#showImg').attr('src',res.saveDir)
+                    }
+                })
+
+>>>>>>> 5a05ccb4229bcf15d6d93a8ee18867ba3a258b6a
             })
 
             $("#addUser").validate({
@@ -102,18 +133,30 @@
 
                 },
                 submitHandler: function (form) {
+<<<<<<< HEAD
                     var arr = $(form).serializeArray()
                     var fd = {};
                     for (var i = 0; i < arr.length; i++) {
                         fd.arr[i].name =  arr[i].value
+=======
+                    var arr = $(form).serializeArray();
+                    let obj = {}
+                    for (var i = 0; i < arr.length; i++) {
+                        obj[arr[i].name] = arr[i].value
+>>>>>>> 5a05ccb4229bcf15d6d93a8ee18867ba3a258b6a
                     }
                     $.ajax({
                         url: "/admin/banner/edit?_csrf={{csrf}}",
                         type: "post",
+<<<<<<< HEAD
                         data: fd,
+=======
+                        // Form数据
+                        data: obj,
+>>>>>>> 5a05ccb4229bcf15d6d93a8ee18867ba3a258b6a
                         success: function (res) {
                             $.message(res.message, { time: 1000, type: res.code }, function () {
-                              //  window.location.reload()
+                                window.location.reload()
                             })
                         }
                     });

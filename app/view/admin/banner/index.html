@@ -68,7 +68,7 @@
             let id = $(this).data('id');
             console.log(id);
             $.alert('确定要删除该条数据吗?', function () {
-                $.get('/admin/article/delete', {
+                $.get('/admin/banner/delete', {
                     id: id
                 }, function (res) {
                     $.message(res.message, { time: 1000, type: res.code }, function () {

@@ -8,6 +8,7 @@ module.exports = app => {
   // 公共工具
   router.get('/admin/captcha', controller.admin.base.captcha)
   router.post('/file/upload',controller.admin.base.upload)
+  router.post('/file/uploadBanner',controller.admin.base.uploadBanner)
   router.get('/test',controller.home.test)
 
 
@@ -47,11 +48,24 @@ module.exports = app => {
   router.get('/admin/banner/edit', controller.admin.banner.edit)
   router.post('/admin/banner/edit', controller.admin.banner.doEdit)
   router.get('/admin/banner/delete', controller.admin.banner.delete)
+  // 导航栏管理
+  //权限管理
+  router.get('/admin/nav', controller.admin.nav.index)
+  router.get('/admin/nav/add', controller.admin.nav.add)
+  router.post('/admin/nav/add', controller.admin.nav.doAdd)
+  router.get('/admin/nav/edit', controller.admin.nav.edit)
+  router.post('/admin/nav/edit', controller.admin.nav.doEdit)
+  router.get('/admin/nav/delete', controller.admin.nav.delete)
+
 
   // 内容发布
   router.get('/admin/article',controller.admin.article.index)
   router.get('/admin/article/add',controller.admin.article.add)
   router.post('/admin/article/add',controller.admin.article.doAdd)
+  // 编辑单页面应用
+  router.get('/admin/editPage/:id',controller.admin.article.editPage)
+
+
 
 
   //api

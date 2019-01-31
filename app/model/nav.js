@@ -49,13 +49,28 @@ module.exports = app => {
       type: DataTypes.BIGINT,
       allowNull: false,
       field: 'add_time'
-    }
+    },
+    moduleId: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+      field: 'module_id'
+    },
+    type: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+      field: 'type'
+    },
+    columnType:{
+      type: DataTypes.INTEGER(10),
+      allowNull: false,
+      field: 'column_type'
+    },
   }, {
     tableName: 'nav'
   });
 
   Model.associate = function() {
-
+    app.model.Nav.hasMany(app.model.Nav,{foreignKey:'moduleId',targetKey:'id',through:null})
   }
 
   return Model;
