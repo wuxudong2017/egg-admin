@@ -65,7 +65,7 @@ module.exports = app => {
   // 编辑单页面应用
   router.get('/admin/editPage/:id',controller.admin.article.editPage)
 
-
+  router.post('/admin/article/addOnePage',controller.admin.article.doEditPage)
 
 
   //api

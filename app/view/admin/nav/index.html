@@ -74,15 +74,15 @@
                         </tr>
                         {% for itemA in item.navs %}
                         <tr>
-                            <td style="text-align:left"> ├─ {{itemA.title}}</td>
-                            <td>
-                                
-                                    {% if itemA.columnType|int === 2%}
-                                    <a href="/admin/editPage/{{itemA.id}}">{{itemA.title}}</a>
-                                    {% else %}
-                                    {{itemA.title}}
-                                    {%endif%}
+                            <td style="text-align:left">
+                                {% if itemA.columnType|int === 2%}
+                                <a href="/admin/editPage/{{itemA.id}}">&nbsp;&nbsp;&nbsp; ├─{{itemA.title}}</a>
+                                {% else %}
+                                &nbsp;&nbsp;&nbsp; ├─{{itemA.title}}
+                                {%endif%}
                             </td>
+
+                            <td>{{itemA.link}}</td>
                             <td>
                                 {% if(itemA.type ==1)%}
                                 一级导航栏

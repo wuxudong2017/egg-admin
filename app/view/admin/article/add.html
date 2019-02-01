@@ -21,17 +21,114 @@
                             <label class="control-label">文章标题</label>
                         </div>
                         <div class="col-sm-6 col-xs-8 ">
-                            <input type="text" class="form-control" required autocomplete="off" name="username" value="">
+                            <input type="text" class="form-control" required autocomplete="off" name="title" value="">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                            <div class="col-sm-3 text-right col-xs-4">
+                                <label class="control-label">文章描述</label>
+                            </div>
+                            <div class="col-sm-6 col-xs-8 ">
+                                <input type="text" class="form-control" required autocomplete="off" name="descript" value="">
+                            </div>
+                        </div>
+                    <div class="form-group">
+                        <div class="col-sm-3 text-right col-xs-4">
+                            <label class="control-label">SEO标题</label>
+                        </div>
+                        <div class="col-sm-6 col-xs-8 ">
+                            <input type="text" class="form-control" required autocomplete="off" name="seoTitle" value="">
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-3 text-right col-xs-4">
-                            <label class="control-label">文章描述</label>
+                            <label class="control-label">状态</label>
                         </div>
                         <div class="col-sm-6 col-xs-8 ">
-                            <input type="text" class="form-control" required autocomplete="off" name="password" value="">
+                            <label class="fancy-radio  control-label">
+                                <input name="type" value="1" type="radio" checked>
+                                <span><i></i>顶置</span>
+                            </label>
+                            <label class="fancy-radio  control-label">
+                                <input name="type" value="2" type="radio">
+                                <span><i></i>头条</span>
+                            </label>
+                            <label class="fancy-radio  control-label">
+                                <input name="type" value="3" type="radio">
+                                <span><i></i>推荐</span>
+                            </label>
+                            <label class="fancy-radio  control-label">
+                                <input name="type" value="4" type="radio">
+                                <span><i></i>热点</span>
+                            </label>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <div class="col-sm-3 text-right col-xs-4">
+                            <label class="control-label">所属栏目</label>
+                        </div>
+                        <div class="col-sm-6 col-xs-8 ">
+                            <select class="form-control" name="columnType" id="">
+                                {% for item in colum%}
+                                <option value="{{item.id}}">{{item.title}}</option>
+                                {% endfor%}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3 text-right col-xs-4">
+                            <label class="control-label">缩略图</label>
+                        </div>
+                        <div class="col-sm-6 col-xs-8 ">
+                            <input type="file" id="upload_file" name="file" autocomplete="off" class="form-control">
+                            <img id="showImg" src="{{result.focusImg}}" style="width:160px;height:90px" alt="">
+                            <input type="hidden" name="img" id="fileUrl" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3 text-right col-xs-4">
+                            <label class="control-label">SEO标题</label>
+                        </div>
+                        <div class="col-sm-6 col-xs-8 ">
+                            <input type="text" class="form-control" required autocomplete="off" name="seoTitle" value="">
+                        </div>
+                    </div>
+                    <!-- <div class="form-group">
+                        <div class="col-sm-3 text-right col-xs-4">
+                            <label class="control-label">状态</label>
+                        </div>
+                        <div class="col-sm-6 col-xs-8 control-label" style="text-align:left">
+                            <span class="text-success">发布</span>
+                            <span class="text-warning">审核</span>
+                            <span class="text-danger">禁用</span>
+                        </div>
+                    </div> -->
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-9 col-sm-offset-3 col-md-9">
+                                <div class="col-sm-4">
+                                    <div class="row">
+                                        <div class="col-sm-3 col-xs-6">
+                                            <label class="control-label text-left">来源</label>
+                                        </div>
+                                        <div class="col-sm-9 col-xs-6 ">
+                                            <input type="text" class="form-control" name="source" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="col-sm-3 col-xs-6">
+                                        <label class="control-label text-left">作者</label>
+                                    </div>
+                                    <div class="col-sm-9 col-xs-6 ">
+                                        <input type="text" class="form-control" name="author" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <div class="col-sm-8 col-sm-offset-2 col-xs-8 ">
                             <textarea name="content" id="content"></textarea>
@@ -54,16 +151,48 @@
     <script src="/public/assets/vendor/froala-editor/js/froala_editor.pkgd.min.js"></script>
     <script src="/public/assets/vendor/froala-editor/js/languages/zh_cn.js"></script>
     <script>
-   // 富文本编辑器
-   $("#content").froalaEditor({
-                height: 300,
-                language: 'zh_cn',
-                imageUploadURL: '/file/upload'
-            })
- 
+        // 富文本编辑器
+        $('#content').on('froalaEditor.initialized', function (e, editor) {
+            var content = '{{con.content | safe}}'
+            if (content) {
+                $("#content").froalaEditor('html.set', content);
+            }
+        }).froalaEditor({
+            placeholderText: '请输入内容',
+            height: 300,
+            language: 'zh_cn',
+            imageUploadURL: '/file/upload',
+            charCounterMax: 3000,
+            enter: $.FroalaEditor.ENTER_BR,
+            language: 'zh_cn',
+            toolbarButtons: [
+                'bold', 'italic', 'underline', 'paragraphFormat', 'align', 'color', 'fontSize', 'insertImage', 'insertTable', 'undo', 'redo'
+            ]
+        })
 
         // /admin/login
         $(function () {
+
+            $('#upload_file').on('change', function (ev) {
+                var pic = $(this)[0].files[0]
+                var fd = new FormData();
+                fd.append('focusImg', pic);
+                $.ajax({
+                    type: 'post',
+                    url: '/file/uploadBanner',
+                    data: fd,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (res) {
+                        $.message(res.message, { time: 1000, type: res.code });
+                        $('#fileUrl').val(res.saveDir);
+                        $('#showImg').attr('src', res.saveDir)
+                    }
+                })
+
+            })
+
             $("#addUser").validate({
                 rules: {
 
