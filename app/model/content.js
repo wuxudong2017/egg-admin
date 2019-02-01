@@ -20,7 +20,7 @@ module.exports = app => {
   });
 
   Model.associate = function() {
-
+    app.model.Content.belongsTo(app.model.Article,{foreignKey:'id',targetKey:'id'})
   }
 
   return Model;

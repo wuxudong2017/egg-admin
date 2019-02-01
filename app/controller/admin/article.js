@@ -4,7 +4,11 @@ const Controller = require('egg').Controller;
 
 class ArticleController extends Controller {
   async index() {
-    await this.ctx.render('/admin/article/index')
+    let result = await this.ctx.service.admin.articleService.index()
+    await this.ctx.render('/admin/article/index',{
+      result
+    })
+    
   }
   // 添加文章
   async add(){

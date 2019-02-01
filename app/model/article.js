@@ -71,6 +71,7 @@ module.exports = app => {
   });
 
   Model.associate = function() {
+    app.model.Article.hasOne(app.model.Content,{foreignKey:'id',targetKey:'id'})
 
   }
 

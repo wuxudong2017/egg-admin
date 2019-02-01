@@ -6,15 +6,17 @@
         <h3 class="panel-title">文章列表</h3>
         <p class="panel-subtitle"></p>
     </div>
+    {{result | dump}}
     <div class="panel-body">
         <div class="row">
             <div class="col-sm-12 col-md-12">
                 <table class="table table-bordered table-striped text-center">
                     <thead>
                         <tr>
-                            <th>编号</th>
                             <th>标题</th>
                             <th>描述</th>
+                            <th>所属栏目</th>
+                            <th>状态</th>
                             <th>添加时间</th>
                             <th>操作</th>
                         </tr>
@@ -23,10 +25,18 @@
                         {% set data = result.rows%}
                         {% for item in data %}
                         <tr>
-                            <td>{{item.username}}</td>
-                            <td>{{item.mobile}}</td>
-                            <td>{{item.email}}</td>
-                            <td>{{item.roleName}}</td>
+                            <td>{{item.title}}</td>
+                            <td>{{item.descript}}</td>
+                            <td>所属栏目</td>
+                            <td>
+                                   {% if  item.status == 1%}
+                                    <span class="text-success">发布</span>
+                                    {% elseif item.status == 2 %}
+                                    <span class="text-warning">审核</span>
+                                    {% else %}
+                                    <span class="text-danger">禁用</span>
+                                    {% endif %}
+                            </td>
                             <td>{{helper.formatDate(item.addTime)}}</td>
                             <td><a href="/admin/article/edit?id={{item.id}}" class="btn btn-xs btn-primary">编辑</a>
                                 <button data-id="{{item.id}}" class="btn btn-xs btn-danger delete">删除</button>
