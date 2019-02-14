@@ -4,9 +4,18 @@ const Service = require('egg').Service;
 const Sequelize = require('sequelize')
 class ArticleServiceService extends Service {
     async index() {
-     
+        let {model} = this.app
         return await this.app.model.Article.findAndCountAll({
-          
+          include:[{
+              model:model.Nav,
+              attributes:[]
+          }],
+          attributes:{
+              include:[
+                [Sequelize.col('nav.title'),'navTitle']
+              ]
+          },
+           raw:true
         })
     }
     // 根据id 查询数据
@@ -79,7 +88,7 @@ class ArticleServiceService extends Service {
             return true
         }
     }
-    async getOne({ id }) {
+    async getOnePage(id) {
         let result = await this.app.model.ColumnPage.findOne({
             where: {
                 id
@@ -95,6 +104,35 @@ class ArticleServiceService extends Service {
             }
         });
         return result
+    }
+    async updateArticle(id,title,seoTitle, descript,type,columnType,img,source,author, content){
+        let {model} = this.app;
+        const t = await model.transaction();
+        try {
+            await model.Article.update({
+                 title, seoTitle, type, columnType, img, source, author, descript
+            },{
+                where:{
+                    id
+                }
+            })
+            await model.Content.update({
+                 content
+            },{
+                where:{
+                    id
+                }
+            })
+            await t.commit();
+            return true;
+        } catch (e) {
+            console.log(e);
+            await t.rollback();
+            return false
+        }
+
+
+
     }
 }
 

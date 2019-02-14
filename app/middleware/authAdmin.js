@@ -16,7 +16,6 @@ module.exports = (options, app) => {
                 if (pathName.indexOf('/login') > -1) {
                     await ctx.redirect('/admin')
                 } else {
-
                     await next()
                 }
 

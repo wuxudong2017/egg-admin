@@ -13,10 +13,11 @@
                 <table class="table table-bordered table-striped text-center">
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>标题</th>
-                            <th>描述</th>
-                            <th>所属栏目</th>
+                            <th>内容分类</th>
                             <th>状态</th>
+                            <th>作者</th>
                             <th>添加时间</th>
                             <th>操作</th>
                         </tr>
@@ -25,9 +26,9 @@
                         {% set data = result.rows%}
                         {% for item in data %}
                         <tr>
-                            <td>{{item.title}}</td>
-                            <td>{{item.descript}}</td>
-                            <td>所属栏目</td>
+                            <td> {{loop.index}}</td>
+                            <td><a href="/admin/news?id={{item.id}}" title="点击预览">{{item.title}}</a> </td>
+                            <td>{{item.navTitle}}</td>
                             <td>
                                    {% if  item.status == 1%}
                                     <span class="text-success">发布</span>
@@ -37,8 +38,10 @@
                                     <span class="text-danger">禁用</span>
                                     {% endif %}
                             </td>
+                            <td>{{item.author}}</td>
                             <td>{{helper.formatDate(item.addTime)}}</td>
-                            <td><a href="/admin/article/edit?id={{item.id}}" class="btn btn-xs btn-primary">编辑</a>
+                            <td>
+                                <a href="/admin/article/edit?id={{item.id}}" class="btn btn-xs btn-primary" >编辑</a>
                                 <button data-id="{{item.id}}" class="btn btn-xs btn-danger delete">删除</button>
                             </td>
                         </tr>

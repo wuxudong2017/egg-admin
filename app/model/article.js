@@ -72,6 +72,7 @@ module.exports = app => {
 
   Model.associate = function() {
     app.model.Article.hasOne(app.model.Content,{foreignKey:'id',targetKey:'id'})
+    app.model.Article.belongsTo(app.model.Nav,{foreignKey:'columnType',targetKey:'id'})
 
   }
 

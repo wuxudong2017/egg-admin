@@ -2,20 +2,21 @@
 {% block content%}
 <div class="panel panel-headline">
     <div class="panel-heading">
-        <h3 class="panel-title">新增权限</h3>
+        <h3 class="panel-title">编辑权限</h3>
         <p class="panel-subtitle"></p>
     </div>
     <div class="panel-body">
         <div class="row">
             <div class="col-sm-12 col-md-12">
                 <form class="form form-horizontal" id="addUser">
+                        <input type="hidden" name="id" value="{{result.id}}">
                     <input type="hidden" name="_csrf" value="{{csrf}}">
                     <div class="form-group">
                         <div class="col-sm-3 text-right col-xs-4">
                             <label class="control-label">模块名称</label>
                         </div>
                         <div class="col-sm-6 col-xs-8 ">
-                            <input type="text" name="moduleName" class="form-control" required autocomplete="off" value="">
+                            <input type="text" name="moduleName" class="form-control" required autocomplete="off" value="{{result.moduleName}}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -24,20 +25,20 @@
                         </div>
                         <div class="col-sm-6 col-xs-8 ">
                             <select name="type" id="typeId" class="form-control">
-                                <option value="1">模块</option>
-                                <option value="2">菜单</option>
-                                <option value="3">操作</option>
+                                <option value="1" {{'selected' if (result.type == 1)}}>模块</option>
+                                <option value="2" {{'selected' if (result.type == 2)}}>菜单</option>
+                                <option value="3" {{'selected' if (result.type == 3)}}>操作</option>
                             </select>
                         </div>
                     </div>
-                    <div class="other" style="display:none">
+                    <div class="other" style=" {{ 'display:none' if (result.type ==1) }}">
                         <div class="form-group">
                             <div class="col-sm-3 text-right col-xs-4">
                                 <label class="control-label">操作名称</label>
                             </div>
                             <div class="col-sm-6 col-xs-8 ">
                                 <input type="text" name="actionName" class="form-control" required autocomplete="off"
-                                    value="">
+                                value="{{result.actionName}}">
                             </div>
                         </div>
                         <div class="form-group">
@@ -45,7 +46,7 @@
                                 <label class="control-label">操作地址</label>
                             </div>
                             <div class="col-sm-6 col-xs-8 ">
-                                <input type="text" class="form-control" value="" name="url"  required autocomplete="off" >
+                                <input type="text" class="form-control"  name="url"  required autocomplete="off" value="{{result.url}}">
                             </div>
                         </div>
                     </div>
@@ -57,7 +58,7 @@
                             <select name="moduleId" id="" class="form-control">
                                 <option value="0">顶级模块</option>
                                 {% for item in moduleList%}
-                                <option value="{{item.id}}">{{item.moduleName}}</option>
+                                <option value="{{item.id}}" {{'selected' if (item.id==result.moduleId)}}>{{item.moduleName}}</option>
                                 {% endfor%}
                             </select>
                         </div>
@@ -67,7 +68,7 @@
                             <label class="control-label">排序</label>
                         </div>
                         <div class="col-sm-6 col-xs-8 ">
-                            <input type="text" name="sort" class="form-control" value="10">
+                            <input type="text" name="sort" class="form-control" value="{{result.sort}}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -75,7 +76,7 @@
                             <label class="control-label">描述</label>
                         </div>
                         <div class="col-sm-6 col-xs-8 ">
-                            <textarea type="text" name="description" class="form-control" style="resize: none"></textarea>
+                            <textarea type="text" name="description" class="form-control" style="resize: none">{{result.description}}</textarea>
                         </div>
                     </div>
                     <div class="form-group text-center">
@@ -104,7 +105,7 @@
 
                     $.ajax({
                         method: 'POST',
-                        url: '/admin/access/add',
+                        url: '/admin/access/edit',
                         data: $.ObjectForm($(form).serialize()),
                         success: function (res) {
                             $.message(res.message, { type: res.code }, function () {

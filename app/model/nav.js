@@ -70,7 +70,8 @@ module.exports = app => {
   });
 
   Model.associate = function() {
-    app.model.Nav.hasMany(app.model.Nav,{foreignKey:'moduleId',targetKey:'id',through:null})
+    app.model.Nav.hasMany(app.model.Nav,{foreignKey:'moduleId',targetKey:'id',through:null});
+    app.model.Nav.hasOne(app.model.Article,{foreignKey:'id',targetKey:'columnType'})
   }
 
   return Model;
