@@ -1,14 +1,32 @@
 {% extends '../index.html'%}
 {% block content%}
 <div class="panel panel-headline">
-    <div class="panel-heading">
-        <h3 class="panel-title">文章预览</h3>
+    <div class="panel-heading clearfix">
+        <h3 class="panel-title">文章预览 (
+            {% if result.status ==2%}
+            <span class="text-warning">审核中</span>
+            {% elseif result.status ==1%}
+            <span class="text-success">发布</span>
+            {% elseif result.status ==0%}
+            <span class="text-danger">禁用</span>
+            {% endif%}
+            
+            )</h3>
     </div>
     <div class="panel-body">
         <div class="row">
             <div class="col-sm-12 col-md-12">
+                <input type="hidden" value="{{result.id}}" id="articleId">
+                {% if result.status == 2%}
+                <button class="btn btn-success btn-sm fabu" data-val="1">发布</button>
+                <button class="btn btn-danger btn-sm fabu" data-val="0">禁用</button>
+                {% elseif result.status == 1%}
+                <button class="btn btn-danger btn-sm fabu" data-val="0">禁用</button>
+                {% elseif result.status == 0%}
+                <button class="btn btn-success btn-sm fabu" data-val="1">发布</button>
+                {% endif%}
                 <div class="item-wrap" style="max-width:800px;margin:20px auto 0">
-                    <div class="article-title text-center" >
+                    <div class="article-title text-center">
                         <h2>{{result.title}}</h2>
                     </div>
                     <div class="article-desc clearfix" style="margin-top:15px">
@@ -36,4 +54,26 @@
             </div>
         </div>
     </div>
+    {% endblock%}
+    {% block js%}
+    <script>
+        $(".fabu").click(function () {
+            var a = $(this).data('val');
+            $.post('/admin/article/examine', {
+                status: a,
+                "_csrf": '{{csrf}}',
+                "id": $('#articleId').val()
+            }, function (res) {
+                $.message(res.message, { type: res.code }, function () {
+                    if (res.code === 1) {
+                        window.location.reload()
+                    }
+                })
+            })
+        })
+
+
+
+    </script>
+
     {% endblock%}

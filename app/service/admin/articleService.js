@@ -130,9 +130,16 @@ class ArticleServiceService extends Service {
             await t.rollback();
             return false
         }
-
-
-
+    }
+    async updateArticleStatus(id,status){
+        let {model} = this.app
+        return  await model.Article.update({
+            status
+       },{
+           where:{
+               id
+           }
+       })
     }
 }
 

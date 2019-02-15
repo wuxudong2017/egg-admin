@@ -33,14 +33,13 @@ class ArticleController extends Controller {
   }
   // 编辑网站单页面应用
   async editPage(){
-    let id = this.ctx.params.id;
+    let id = this.ctx.request.query.id;
     let con = await this.ctx.service.admin.articleService.getOnePage(id);
     let col = await this.ctx.service.admin.navService.getOne({id});
     await this.ctx.render('/admin/article/editPage',{
       con,
       col
     })
-    console.log(id)
   }
   // 编辑单页
   async doEditPage(){
@@ -88,7 +87,6 @@ class ArticleController extends Controller {
     author=formData.author,
     descript = formData.descript,
     content = formData.content.replace(/\+/g," ");
-    console.log(`title=======>${title}`)
     let result = await this.ctx.service.admin.articleService.updateArticle(id,title,seoTitle, descript,type,columnType,img,source,author, content)
     if(result){
       this.ctx.body = {
@@ -113,6 +111,29 @@ class ArticleController extends Controller {
       result
     })
   }
+  //文章审核
+  async examine(){
+    let formData = this.ctx.request.body;
+    let id = formData.id;
+    let status = Number(formData.status)
+    let result = await this.ctx.service.admin.articleService.updateArticleStatus(id,status);
+    let hasAuth = await this.ctx.service.admin.admin.checkAuth();
+    if(result==1){
+      this.ctx.body={
+        code:1,
+        message:'修改成功',
+        data:null
+      }
+    }else{
+       this.ctx.body={
+        code:0,
+        message:'修改失败',
+        data:null
+      }
+    }
+    
+  }
+
 
 
 }

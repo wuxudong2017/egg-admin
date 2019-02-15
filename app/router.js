@@ -66,11 +66,11 @@ module.exports = app => {
   router.post('/admin/article/edit',controller.admin.article.doEdit)
 
   router.get('/admin/news',controller.admin.article.show)
-
+  router.post('/admin/article/examine',controller.admin.article.examine)
 
 
   // 编辑单页面应用
-  router.get('/admin/editPage/:id',controller.admin.article.editPage)
+  router.get('/admin/editPage',controller.admin.article.editPage)
 
   router.post('/admin/article/addOnePage',controller.admin.article.doEditPage)
 

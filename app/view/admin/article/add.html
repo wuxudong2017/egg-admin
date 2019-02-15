@@ -82,7 +82,7 @@
                         </div>
                         <div class="col-sm-6 col-xs-8 ">
                             <input type="file" id="upload_file" name="file" autocomplete="off" class="form-control">
-                            <img id="showImg" src="{{result.focusImg}}" style="width:160px;height:90px" alt="">
+                            <img id="showImg" src="{{result.focusImg}}"  alt="">
                             <input type="hidden" name="img" id="fileUrl" value="">
                         </div>
                     </div>
@@ -180,7 +180,7 @@
                     success: function (res) {
                         $.message(res.message, { time: 1000, type: res.code });
                         $('#fileUrl').val(res.saveDir);
-                        $('#showImg').attr('src', res.saveDir)
+                        $('#showImg').attr({'src': res.saveDir,"style":"width:160px;height:90px"})
                     }
                 })
 

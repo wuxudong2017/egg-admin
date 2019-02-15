@@ -57,7 +57,7 @@ class NavController extends Controller {
 
   async doEdit(){
     let formData = this.ctx.request.body;
-    let title = formData.title
+    let title = formData.title;
     let id = formData.id
     let postion = Number(formData.postion)
     let link = String(formData.link)
